@@ -1,4 +1,4 @@
-<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,7 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <!-- Firebase Compat Library (הגרסה היציבה ביותר לשרתים חינמיים) -->
+    <!-- Firebase Compat Library (חובה לשימוש בקובץ בודד ללא Build) -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
@@ -37,12 +37,24 @@
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
+    <!-- אזור לתצוגת שגיאות קריטיות (למקרה של מסך לבן) -->
+    <div id="error-display" style="display:none; padding:20px; background:white; color:red; border-bottom:2px solid red;"></div>
+    
+    <script>
+        // לוכד שגיאות גלובלי כדי למנוע מסך לבן שקט
+        window.onerror = function(message, source, lineno, colno, error) {
+            var errorDiv = document.getElementById('error-display');
+            errorDiv.style.display = 'block';
+            errorDiv.innerHTML += '<strong>שגיאה:</strong> ' + message + '<br><small>' + source + ':' + lineno + '</small><br><br>';
+        };
+    </script>
+
     <div id="root"></div>
 
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // --- הגדרות Firebase שלך ---
+        // 1. הגדרות Firebase שהעתקתי ממך והמרתי לפורמט בטוח
         const firebaseConfig = {
             apiKey: "AIzaSyAIxnlQvXqXbBs4w9F-PZPJcG8OGOzYey4",
             authDomain: "laloumphone-a38c9.firebaseapp.com",
@@ -52,15 +64,19 @@
             appId: "1:555557527628:web:df2f5c2710aaa8c25d54e9"
         };
 
-        // אתחול בטוח
-        let db;
+        // 2. אתחול בטוח של המסד נתונים
+        let db = null;
         try {
-            if (!firebase.apps.length) {
+            if (firebase && !firebase.apps.length) {
                 firebase.initializeApp(firebaseConfig);
+                db = firebase.firestore();
+                console.log("Firebase initialized successfully");
+            } else if (firebase && firebase.apps.length) {
+                db = firebase.firestore();
             }
-            db = firebase.firestore();
         } catch (error) {
-            console.error("Firebase initialization error:", error);
+            console.error("Firebase init failed:", error);
+            // לא עוצרים את האתר, פשוט עובדים ללא מסד נתונים
         }
 
         // --- אייקונים ---
@@ -87,8 +103,8 @@
             return <img src={src} alt={alt} className="w-full h-full object-contain" onError={() => setError(true)} />;
         };
 
-        // --- נתונים התחלתיים (למקרה שהמסד ריק) ---
-        const initialPlans = [
+        // --- נתוני גיבוי (קריטי למניעת מסך לבן) ---
+        const initialPlansData = [
             // 5G Plans
             { id: 'p5g-1', category: '5G', provider: 'Partner', providerName: 'Partner Queen 5G', color: 'bg-teal-500', price: '39.9', priceDetail: 'לחודש (ל-3 חודשים ראשונים)', afterPrice: 'מחודש 4: 49.9 ₪', features: ['5000 דקות / 5000 הודעות', '500GB גלישה', '400 דקות שיחה לחו״ל'], isHot: true },
             { id: 'p5g-2', category: '5G', provider: 'Partner', providerName: 'Partner King 5G', color: 'bg-teal-500', price: '59.9', priceDetail: 'מחיר קבוע לחודש', features: ['6000 דקות / 6000 הודעות', '800GB גלישה', '500 דקות שיחה לחו״ל', 'עלות סים: 10 ₪'], isHot: false },
@@ -144,7 +160,7 @@
         ];
 
         const App = () => {
-            const [plans, setPlans] = useState([]);
+            const [plans, setPlans] = useState(initialPlansData);
             const [loading, setLoading] = useState(true);
             const [view, setView] = useState('home');
             const [activeCategory, setActiveCategory] = useState('5G');
@@ -154,33 +170,35 @@
             const [password, setPassword] = useState('');
             const [isEditModalOpen, setIsEditModalOpen] = useState(false);
             const [currentPlan, setCurrentPlan] = useState(null);
-
+            
             const MY_PHONE_NUMBER = "972532701278"; 
             const ANTENNA_MAP_URL = "https://public.tableau.com/views/_17116609455320/sheet1?%3Alanguage=en-US&publish=yes&%3Asid=&%3Adisplay_count=n&%3Aorigin=viz_share_link%3F%3AshowVizHome&utm_source=go.gov.il&utm_medium=referral";
 
-            // טעינת נתונים - כאן אנחנו טוענים נתונים גם אם ה-DB לא עובד
+            // טעינה ראשונית - מעדכן את המצב מהנתונים הסטטיים
             useEffect(() => {
-                let unsubscribe = () => {};
-                
-                // שימוש ישיר ב-initialPlans כדי להבטיח טעינה מיידית
-                setPlans(initialPlans);
+                setPlans(initialPlansData);
                 setLoading(false);
-
-                // נסיון להתחבר לפיירבייס ברקע (לא קריטי להצגה ראשונית)
+                
+                // נסיון להתחבר ל-Firebase ברקע
                 try {
                     if (db) {
-                       unsubscribe = db.collection("plans").onSnapshot((snapshot) => {
-                            if (!snapshot.empty) {
+                       const unsubscribe = db.collection("plans").onSnapshot((snapshot) => {
+                            if (snapshot.empty) {
+                                // אם המסד ריק, מעלה נתונים
+                                initialPlansData.forEach(p => {
+                                    db.collection("plans").doc(p.id.toString()).set(p);
+                                });
+                            } else {
+                                // אם יש נתונים, מעדכן את ה-State
                                 const fetchedPlans = snapshot.docs.map(doc => doc.data());
                                 setPlans(fetchedPlans);
                             }
                         });
+                        return () => unsubscribe();
                     }
                 } catch(e) {
-                    console.log("Running in offline mode");
+                    console.log("Working offline due to error:", e);
                 }
-                
-                return () => unsubscribe();
             }, []);
 
             // טיימר להצגת המודעה אחרי 2 שניות
@@ -215,6 +233,13 @@
                 { id: 'HotMobile', name: 'הוט מובייל', logo: logos.HotMobile },
                 { id: 'Golan', name: 'גולן טלקום', logo: logos.Golan },
                 { id: 'WeCom', name: 'wecom', logo: logos.WeCom },
+            ];
+
+            const categories = [
+                { id: '5G', name: 'דור 5 (5G)', icon: <Zap size={18} /> },
+                { id: '4G', name: 'דור 4 (4G)', icon: <Smartphone size={18} /> },
+                { id: 'Kosher', name: 'קו כשר', icon: <ShieldCheck size={18} /> },
+                { id: 'Fiber', name: 'אינטרנט ו-TV', icon: <Wifi size={18} /> },
             ];
 
             // פונקציות ניהול
@@ -315,6 +340,10 @@
                         </div>
                     </div>
                 );
+            }
+
+            if (loading && plans.length === 0) {
+                 return <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 text-blue-600"><Loader size={48} /><div className="mt-4 font-bold">טוען נתונים...</div></div>;
             }
 
             return (
