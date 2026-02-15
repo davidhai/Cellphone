@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ללום פון - ממשק ניהול משודרג</title>
+    <title>ללום פון - מערכת ניהול מתקדמת</title>
     
     <!-- React & Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -112,12 +112,12 @@
         const TrashIcon = ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>;
         const PlusIcon = ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>;
         const Loader = ({size}) => <svg className="animate-spin text-blue-600" width={size} height={size} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>;
-        // New Icons
         const MoonIcon = ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>;
         const SunIcon = ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>;
         const RobotIcon = ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>;
         const SendIcon = ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>;
         const MailIcon = ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>;
+        const SettingsIcon = ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>;
 
         const SmartLogo = ({ src, alt, fallbackText }) => {
             const [error, setError] = useState(false);
@@ -280,11 +280,18 @@
         };
 
         // --- מודל יצירת קשר ---
-        const ContactModal = ({ isOpen, onClose }) => {
+        const ContactModal = ({ isOpen, onClose, onSend }) => {
             if (!isOpen) return null;
             
             const handleSubmit = (e) => {
                 e.preventDefault();
+                const formData = {
+                    name: e.target.name.value,
+                    phone: e.target.phone.value,
+                    message: e.target.message.value,
+                    date: new Date().toLocaleString()
+                };
+                onSend(formData);
                 alert("הפרטים נשלחו בהצלחה! נחזור אליך בהקדם.");
                 onClose();
             };
@@ -299,15 +306,15 @@
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div>
                                 <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">שם מלא</label>
-                                <input type="text" required className="w-full border dark:border-gray-600 rounded-lg p-3 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="ישראל ישראלי" />
+                                <input name="name" type="text" required className="w-full border dark:border-gray-600 rounded-lg p-3 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="ישראל ישראלי" />
                             </div>
                             <div>
                                 <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">טלפון</label>
-                                <input type="tel" required className="w-full border dark:border-gray-600 rounded-lg p-3 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="050-0000000" />
+                                <input name="phone" type="tel" required className="w-full border dark:border-gray-600 rounded-lg p-3 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="050-0000000" />
                             </div>
                             <div>
                                 <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">הודעה (אופציונלי)</label>
-                                <textarea className="w-full border dark:border-gray-600 rounded-lg p-3 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none h-24" placeholder="על איזו חבילה רצית לשאול?"></textarea>
+                                <textarea name="message" className="w-full border dark:border-gray-600 rounded-lg p-3 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none h-24" placeholder="על איזו חבילה רצית לשאול?"></textarea>
                             </div>
                             <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors">שלח פרטים</button>
                         </form>
@@ -319,7 +326,9 @@
         const App = () => {
             const [plans, setPlans] = useState(initialPlansData);
             const [loading, setLoading] = useState(true);
-            const [view, setView] = useState('home');
+            const [view, setView] = useState('home'); // home, login, admin
+            const [adminTab, setAdminTab] = useState('plans'); // plans, messages, popup
+            
             const [activeCategory, setActiveCategory] = useState('5G');
             const [selectedProvider, setSelectedProvider] = useState('all');
             const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -329,11 +338,14 @@
             const [currentPlan, setCurrentPlan] = useState(null);
             const [darkMode, setDarkMode] = useState(false);
             const [isContactOpen, setIsContactOpen] = useState(false);
+            const [contactMessages, setContactMessages] = useState([]);
 
-            // הגדרות מודעה קופצת - ניתנות לעריכה
+            // הגדרות מודעה קופצת - מורחבות
             const [popupConfig, setPopupConfig] = useState({
+                show: true,
                 title: "מבצעי השקה בסלקום!",
                 badge: "היום מסתיים המבצע!",
+                badgeColor: "bg-red-600",
                 promo1Price: "39",
                 promo1Text: "אינטרנט סיבים",
                 promo2Price: "89",
@@ -362,38 +374,53 @@
                 }
             };
 
-            // טעינה ראשונית - מעדכן את המצב מהנתונים הסטטיים
+            // טעינה ראשונית + Firebase
             useEffect(() => {
                 setPlans(initialPlansData);
                 setLoading(false);
                 
-                // נסיון להתחבר ל-Firebase ברקע
                 try {
                     if (db) {
-                       const unsubscribe = db.collection("plans").onSnapshot((snapshot) => {
-                            if (snapshot.empty) {
-                                initialPlansData.forEach(p => {
-                                    db.collection("plans").doc(p.id.toString()).set(p);
-                                });
-                            } else {
+                       // טעינת תוכניות
+                       const unsubscribePlans = db.collection("plans").onSnapshot((snapshot) => {
+                            if (!snapshot.empty) {
                                 const fetchedPlans = snapshot.docs.map(doc => doc.data());
                                 setPlans(fetchedPlans);
                             }
                         });
-                        return () => unsubscribe();
+
+                        // טעינת הודעות
+                        const unsubscribeMessages = db.collection("messages").orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
+                            if (!snapshot.empty) {
+                                const msgs = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
+                                setContactMessages(msgs);
+                            }
+                        });
+
+                        // טעינת הגדרות פופאפ
+                        db.collection("settings").doc("popup").get().then((doc) => {
+                            if (doc.exists) {
+                                setPopupConfig(doc.data());
+                            }
+                        });
+
+                        return () => {
+                            unsubscribePlans();
+                            unsubscribeMessages();
+                        };
                     }
                 } catch(e) {
                     console.log("Working offline due to error:", e);
                 }
             }, []);
 
-            // טיימר להצגת המודעה אחרי 2 שניות
+            // טיימר להצגת המודעה
             useEffect(() => {
                 const timer = setTimeout(() => {
-                    if (view === 'home') setShowPopup(true);
+                    if (view === 'home' && popupConfig.show) setShowPopup(true);
                 }, 2000);
                 return () => clearTimeout(timer);
-            }, [view]);
+            }, [view, popupConfig.show]);
 
             // איפוס סינון במעבר קטגוריה
             useEffect(() => {
@@ -439,11 +466,10 @@
                 }
             };
 
+            // ניהול תוכניות
             const handleDeletePlan = async (id) => {
                 if (confirm('האם למחוק את התוכנית?')) {
-                    if (db) {
-                         db.collection("plans").doc(id.toString()).delete();
-                    }
+                    if (db) db.collection("plans").doc(id.toString()).delete();
                     setPlans(plans.filter(p => p.id !== id));
                 }
             };
@@ -455,9 +481,7 @@
                     updatedPlan.features = updatedPlan.features.split('\n').filter(f => f.trim() !== '');
                 }
                 
-                if (db) {
-                     db.collection("plans").doc(updatedPlan.id.toString()).set(updatedPlan);
-                }
+                if (db) db.collection("plans").doc(updatedPlan.id.toString()).set(updatedPlan);
                 
                 if (plans.some(p => p.id === updatedPlan.id)) {
                     setPlans(plans.map(p => p.id === updatedPlan.id ? updatedPlan : p));
@@ -487,6 +511,31 @@
                 setIsEditModalOpen(true);
             };
 
+            // שמירת הגדרות פופאפ
+            const handleSavePopupConfig = () => {
+                if (db) {
+                    db.collection("settings").doc("popup").set(popupConfig);
+                }
+                alert('הגדרות נשמרו בהצלחה');
+            };
+
+            // שליחת הודעה
+            const handleSendMessage = (data) => {
+                const newMessage = { ...data, timestamp: Date.now(), read: false };
+                if (db) {
+                    db.collection("messages").add(newMessage);
+                }
+                setContactMessages(prev => [newMessage, ...prev]);
+            };
+
+            // מחיקת הודעה
+            const handleDeleteMessage = (id) => {
+                if (confirm('למחוק הודעה זו?')) {
+                    if (db) db.collection("messages").doc(id).delete();
+                    setContactMessages(prev => prev.filter(m => m.id !== id));
+                }
+            };
+
             const handleOrder = (plan) => {
                 const text = `היי ללום פון, אני מעוניין להצטרף לתוכנית הבאה:\n*שם התוכנית:* ${plan.providerName}\n*מחיר:* ${plan.price} ₪\n*פירוט המחיר:* ${plan.priceDetail}\n*מחיר המשך:* ${plan.afterPrice || 'ללא'}\n*קטגוריה:* ${plan.category}`;
                 const url = `https://wa.me/${MY_PHONE_NUMBER}?text=${encodeURIComponent(text)}`;
@@ -498,6 +547,7 @@
             });
 
             const showProviderFilter = ['5G', '4G', 'Kosher'].includes(activeCategory);
+            const unreadMessagesCount = contactMessages.filter(m => !m.read).length;
 
             if (view === 'login') {
                 return (
@@ -526,16 +576,18 @@
             return (
                 <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans relative transition-colors duration-300" dir="rtl">
                     
-                    <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+                    <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} onSend={handleSendMessage} />
                     
                     {/* Popup - כעת דינמי */}
-                    {showPopup && view === 'home' && (
+                    {showPopup && view === 'home' && popupConfig.show && (
                         <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center pointer-events-none">
                             <div className="absolute inset-0 bg-black/60 transition-opacity pointer-events-auto" onClick={() => setShowPopup(false)}></div>
                             <div className="relative w-full sm:max-w-md bg-white dark:bg-gray-800 rounded-t-2xl sm:rounded-2xl shadow-2xl p-6 pointer-events-auto pop-up overflow-hidden">
                                 <button onClick={() => setShowPopup(false)} className="absolute top-3 left-3 p-2 bg-gray-100 dark:bg-gray-700 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors z-10"><XIcon size={20} /></button>
                                 <div className="text-center relative z-10">
-                                    <div className="bg-red-600 text-white text-sm font-black py-2 px-4 rounded-full mb-4 inline-block shadow-lg pulse-red flex items-center justify-center gap-2 mx-auto w-fit"><Clock size={16} />{popupConfig.badge}</div>
+                                    <div className={`${popupConfig.badgeColor || 'bg-red-600'} text-white text-sm font-black py-2 px-4 rounded-full mb-4 inline-block shadow-lg pulse-red flex items-center justify-center gap-2 mx-auto w-fit`}>
+                                        <Clock size={16} />{popupConfig.badge}
+                                    </div>
                                     <div className="inline-block p-3 bg-purple-100 dark:bg-purple-900 rounded-full mb-3 text-purple-600 dark:text-purple-300"><Zap size={32} /></div>
                                     <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-1">{popupConfig.title}</h3>
                                     <div className="space-y-3 mb-6 mt-4">
@@ -554,7 +606,7 @@
                         </div>
                     )}
 
-                    {/* Edit Modal */}
+                    {/* Edit Plan Modal */}
                     {isEditModalOpen && (
                         <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/50 overflow-y-auto backdrop-blur-sm">
                             <div className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-lg p-6 relative my-auto">
@@ -583,7 +635,7 @@
                         <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
                             <div className="flex items-center gap-2">
                                 <div className="w-11 h-11 bg-gradient-to-tr from-blue-700 to-cyan-500 rounded-full flex items-center justify-center text-white shadow-md"><PhoneCall size={22} strokeWidth={2.5} /></div>
-                                <div><h1 className="text-2xl font-black leading-none text-blue-800 dark:text-blue-400 tracking-tight">ללום פון</h1><p className="text-sm font-medium text-gray-500 dark:text-gray-400">{view === 'admin' ? 'ממשק ניהול פעיל' : 'התקשורת שלך, במחיר שלך'}</p></div>
+                                <div><h1 className="text-2xl font-black leading-none text-blue-800 dark:text-blue-400 tracking-tight">ללום פון</h1><p className="text-sm font-medium text-gray-500 dark:text-gray-400">{view === 'admin' ? 'ממשק ניהול מתקדם' : 'התקשורת שלך, במחיר שלך'}</p></div>
                             </div>
                             <div className="flex items-center gap-3">
                                 {/* Dark Mode Toggle */}
@@ -616,38 +668,180 @@
                                 </div>
                             </div>
                         </div>
-                        <div className="border-t border-gray-100 dark:border-gray-800 overflow-x-auto bg-white/95 dark:bg-gray-900/95 backdrop-blur scrollbar-hide">
-                            <div className="max-w-6xl mx-auto px-4 flex gap-3 py-3 min-w-max">
-                                {categories.map((cat) => (
-                                    <button key={cat.id} onClick={() => setActiveCategory(cat.id)} className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all shadow-sm whitespace-nowrap ${activeCategory === cat.id ? 'bg-blue-700 text-white shadow-blue-200/50 scale-[1.03]' : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300'}`}>{cat.icon}{cat.name}</button>
-                                ))}
+                        {view === 'home' && (
+                            <div className="border-t border-gray-100 dark:border-gray-800 overflow-x-auto bg-white/95 dark:bg-gray-900/95 backdrop-blur scrollbar-hide">
+                                <div className="max-w-6xl mx-auto px-4 flex gap-3 py-3 min-w-max">
+                                    {categories.map((cat) => (
+                                        <button key={cat.id} onClick={() => setActiveCategory(cat.id)} className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all shadow-sm whitespace-nowrap ${activeCategory === cat.id ? 'bg-blue-700 text-white shadow-blue-200/50 scale-[1.03]' : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300'}`}>{cat.icon}{cat.name}</button>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </header>
 
-                    {/* ממשק ניהול כולל עורך מודעות */}
+                    {/* ממשק ניהול מתקדם */}
                     {view === 'admin' && (
-                        <div className="bg-red-50 dark:bg-red-900/20 border-b border-red-100 dark:border-red-900 p-4 sticky top-[120px] z-40">
-                            <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-4 justify-between items-center">
-                                <div className="text-red-800 dark:text-red-300 font-bold text-sm">מצב עריכה: {categories.find(c => c.id === activeCategory)?.name}</div>
-                                <div className="flex gap-2">
-                                    <button onClick={handleAddNewPlan} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2"><PlusIcon size={16} /> הוסף תוכנית</button>
+                        <div className="bg-white dark:bg-gray-900 min-h-screen">
+                            {/* סרגל ניווט ניהול */}
+                            <div className="bg-red-50 dark:bg-gray-800 border-b border-red-200 dark:border-gray-700 px-4 py-3 sticky top-[72px] z-40">
+                                <div className="max-w-6xl mx-auto flex gap-4 overflow-x-auto scrollbar-hide">
+                                    <button onClick={() => setAdminTab('plans')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-colors whitespace-nowrap ${adminTab === 'plans' ? 'bg-red-600 text-white' : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-red-100'}`}>
+                                        ניהול תוכניות
+                                    </button>
+                                    <button onClick={() => setAdminTab('messages')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-colors whitespace-nowrap flex items-center gap-2 ${adminTab === 'messages' ? 'bg-red-600 text-white' : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-red-100'}`}>
+                                        הודעות מלקוחות
+                                        {unreadMessagesCount > 0 && <span className="bg-white text-red-600 text-xs px-2 py-0.5 rounded-full">{unreadMessagesCount}</span>}
+                                    </button>
+                                    <button onClick={() => setAdminTab('popup')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-colors whitespace-nowrap flex items-center gap-2 ${adminTab === 'popup' ? 'bg-red-600 text-white' : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-red-100'}`}>
+                                        <SettingsIcon size={16} /> הגדרות מודעה
+                                    </button>
                                 </div>
                             </div>
-                            {/* עורך המודעה הקופצת */}
-                            <div className="max-w-6xl mx-auto mt-4 pt-4 border-t border-red-200 dark:border-red-800">
-                                <h3 className="text-sm font-bold text-red-800 dark:text-red-300 mb-2">עריכת מודעה קופצת:</h3>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                                    <input type="text" className="p-2 rounded border dark:bg-gray-700 dark:text-white" placeholder="כותרת ראשית" value={popupConfig.title} onChange={e => setPopupConfig({...popupConfig, title: e.target.value})} />
-                                    <input type="text" className="p-2 rounded border dark:bg-gray-700 dark:text-white" placeholder="כותרת תג (Badge)" value={popupConfig.badge} onChange={e => setPopupConfig({...popupConfig, badge: e.target.value})} />
-                                    <input type="text" className="p-2 rounded border dark:bg-gray-700 dark:text-white" placeholder="מחיר מבצע 1" value={popupConfig.promo1Price} onChange={e => setPopupConfig({...popupConfig, promo1Price: e.target.value})} />
-                                    <input type="text" className="p-2 rounded border dark:bg-gray-700 dark:text-white" placeholder="טקסט מבצע 1" value={popupConfig.promo1Text} onChange={e => setPopupConfig({...popupConfig, promo1Text: e.target.value})} />
-                                </div>
+
+                            <div className="max-w-6xl mx-auto p-4 md:p-6">
+                                {/* לשונית ניהול תוכניות */}
+                                {adminTab === 'plans' && (
+                                    <>
+                                        <div className="flex justify-between items-center mb-6">
+                                            <h2 className="text-xl font-bold dark:text-white">רשימת תוכניות ({activeCategory})</h2>
+                                            <button onClick={handleAddNewPlan} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2"><PlusIcon size={16} /> הוסף תוכנית</button>
+                                        </div>
+                                        
+                                        {/* קטגוריות לסינון בניהול */}
+                                        <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+                                            {categories.map((cat) => (
+                                                <button key={cat.id} onClick={() => setActiveCategory(cat.id)} className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap ${activeCategory === cat.id ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-700'}`}>{cat.name}</button>
+                                            ))}
+                                        </div>
+
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                            {filteredPlans.map((plan) => (
+                                                <div key={plan.id} className="relative bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-xl p-4 shadow-sm flex flex-col gap-2 group">
+                                                    <div className="absolute top-2 left-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                        <button onClick={() => handleEditPlan(plan)} className="p-2 bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200"><EditIcon size={16}/></button>
+                                                        <button onClick={() => handleDeletePlan(plan.id)} className="p-2 bg-red-100 text-red-600 rounded-full hover:bg-red-200"><TrashIcon size={16}/></button>
+                                                    </div>
+                                                    <div className="font-bold text-lg dark:text-white">{plan.providerName}</div>
+                                                    <div className="text-xl font-black text-blue-600">{plan.price} ₪</div>
+                                                    <div className="text-sm text-gray-500">{plan.features[0]}</div>
+                                                    <div className="mt-auto pt-2 text-xs text-gray-400 border-t dark:border-gray-700">{plan.provider}</div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </>
+                                )}
+
+                                {/* לשונית הודעות */}
+                                {adminTab === 'messages' && (
+                                    <div className="max-w-4xl mx-auto">
+                                        <h2 className="text-2xl font-bold mb-6 dark:text-white">הודעות נכנסות ({contactMessages.length})</h2>
+                                        <div className="space-y-4">
+                                            {contactMessages.length === 0 && <div className="text-center py-10 text-gray-400">אין הודעות חדשות</div>}
+                                            {contactMessages.map((msg) => (
+                                                <div key={msg.id || Math.random()} className={`bg-white dark:bg-gray-800 p-5 rounded-xl border-r-4 shadow-sm flex flex-col md:flex-row justify-between gap-4 ${msg.read ? 'border-gray-300' : 'border-green-500'}`}>
+                                                    <div className="flex-1">
+                                                        <div className="flex items-center gap-2 mb-1">
+                                                            <span className="font-bold text-lg dark:text-white">{msg.name}</span>
+                                                            <span className="text-sm text-gray-500">{msg.date}</span>
+                                                        </div>
+                                                        <div className="text-blue-600 font-bold mb-2">{msg.phone}</div>
+                                                        <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg text-gray-700 dark:text-gray-300 text-sm">
+                                                            {msg.message || "אין תוכן הודעה"}
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex flex-row md:flex-col gap-2 justify-center">
+                                                        <a href={`https://wa.me/972${msg.phone.replace(/^0/, '')}`} target="_blank" className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-bold flex items-center justify-center gap-2 text-sm">
+                                                            <MessageCircle size={16} /> וואטסאפ
+                                                        </a>
+                                                        <a href={`tel:${msg.phone}`} className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-bold flex items-center justify-center gap-2 text-sm">
+                                                            <PhoneCall size={16} /> חייג
+                                                        </a>
+                                                        <button onClick={() => handleDeleteMessage(msg.id)} className="bg-red-100 hover:bg-red-200 text-red-600 px-4 py-2 rounded-lg font-bold flex items-center justify-center gap-2 text-sm">
+                                                            <TrashIcon size={16} /> מחק
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* לשונית עריכת מודעה */}
+                                {adminTab === 'popup' && (
+                                    <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700">
+                                        <h2 className="text-2xl font-bold mb-6 dark:text-white border-b pb-4 dark:border-gray-700">הגדרות מודעה קופצת (Popup)</h2>
+                                        
+                                        <div className="flex items-center gap-3 mb-6 bg-gray-50 dark:bg-gray-700 p-4 rounded-xl">
+                                            <input 
+                                                type="checkbox" 
+                                                id="showPopup" 
+                                                className="w-6 h-6 accent-red-600"
+                                                checked={popupConfig.show} 
+                                                onChange={(e) => setPopupConfig({...popupConfig, show: e.target.checked})} 
+                                            />
+                                            <label htmlFor="showPopup" className="font-bold text-lg cursor-pointer dark:text-white">הפעל מודעה קופצת באתר</label>
+                                        </div>
+
+                                        <div className="space-y-4">
+                                            <div>
+                                                <label className="block text-sm font-bold mb-1 dark:text-gray-300">כותרת ראשית</label>
+                                                <input type="text" className="w-full p-2 border rounded dark:bg-gray-600 dark:text-white" value={popupConfig.title} onChange={e => setPopupConfig({...popupConfig, title: e.target.value})} />
+                                            </div>
+                                            
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <label className="block text-sm font-bold mb-1 dark:text-gray-300">טקסט תגית (Badge)</label>
+                                                    <input type="text" className="w-full p-2 border rounded dark:bg-gray-600 dark:text-white" value={popupConfig.badge} onChange={e => setPopupConfig({...popupConfig, badge: e.target.value})} />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm font-bold mb-1 dark:text-gray-300">צבע תגית</label>
+                                                    <select className="w-full p-2 border rounded dark:bg-gray-600 dark:text-white" value={popupConfig.badgeColor} onChange={e => setPopupConfig({...popupConfig, badgeColor: e.target.value})}>
+                                                        <option value="bg-red-600">אדום</option>
+                                                        <option value="bg-blue-600">כחול</option>
+                                                        <option value="bg-green-600">ירוק</option>
+                                                        <option value="bg-purple-600">סגול</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div className="border-t pt-4 mt-4 dark:border-gray-700">
+                                                <h3 className="font-bold mb-3 dark:text-gray-200">מבצע 1 (עליון)</h3>
+                                                <div className="grid grid-cols-3 gap-4">
+                                                    <div className="col-span-1">
+                                                        <label className="text-xs">מחיר</label>
+                                                        <input type="text" className="w-full p-2 border rounded dark:bg-gray-600 dark:text-white" value={popupConfig.promo1Price} onChange={e => setPopupConfig({...popupConfig, promo1Price: e.target.value})} />
+                                                    </div>
+                                                    <div className="col-span-2">
+                                                        <label className="text-xs">תיאור</label>
+                                                        <input type="text" className="w-full p-2 border rounded dark:bg-gray-600 dark:text-white" value={popupConfig.promo1Text} onChange={e => setPopupConfig({...popupConfig, promo1Text: e.target.value})} />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="border-t pt-4 mt-4 dark:border-gray-700">
+                                                <h3 className="font-bold mb-3 dark:text-gray-200">מבצע 2 (תחתון)</h3>
+                                                <div className="grid grid-cols-3 gap-4">
+                                                    <div className="col-span-1">
+                                                        <label className="text-xs">מחיר</label>
+                                                        <input type="text" className="w-full p-2 border rounded dark:bg-gray-600 dark:text-white" value={popupConfig.promo2Price} onChange={e => setPopupConfig({...popupConfig, promo2Price: e.target.value})} />
+                                                    </div>
+                                                    <div className="col-span-2">
+                                                        <label className="text-xs">תיאור</label>
+                                                        <input type="text" className="w-full p-2 border rounded dark:bg-gray-600 dark:text-white" value={popupConfig.promo2Text} onChange={e => setPopupConfig({...popupConfig, promo2Text: e.target.value})} />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <button onClick={handleSavePopupConfig} className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl mt-6">שמור שינויים</button>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}
 
-                    {!isEditModalOpen && (
+                    {/* דף הבית */}
+                    {!isEditModalOpen && view === 'home' && (
                         <main className="max-w-6xl mx-auto px-4 pb-32 mt-6">
                             {showProviderFilter && (
                                 <div className="mb-8 overflow-x-auto pb-4 scrollbar-hide">
@@ -665,12 +859,6 @@
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 fade-in">
                                 {filteredPlans.map((plan) => (
                                     <div key={plan.id} className={`group bg-white dark:bg-gray-800 rounded-2xl border ${view === 'admin' ? 'border-red-200 dark:border-red-900' : 'border-gray-200/60 dark:border-gray-700'} shadow-sm hover:shadow-xl dark:shadow-black/50 transition-all duration-300 flex flex-col overflow-hidden relative`}>
-                                        {view === 'admin' && (
-                                            <div className="absolute top-0 left-0 w-full h-full bg-white/80 dark:bg-black/60 z-30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4 backdrop-blur-sm">
-                                                <button onClick={() => handleEditPlan(plan)} className="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:scale-110 transition-transform"><EditIcon size={24} /></button>
-                                                <button onClick={() => handleDeletePlan(plan.id)} className="bg-red-600 text-white p-3 rounded-full shadow-lg hover:scale-110 transition-transform"><TrashIcon size={24} /></button>
-                                            </div>
-                                        )}
                                         {plan.isHot && <div className="absolute top-0 left-0 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-br-xl z-10 shadow-sm uppercase tracking-wider">🔥 הכי נמכר</div>}
                                         {plan.badge && <div className="absolute top-0 right-0 bg-yellow-400 text-blue-900 text-xs font-bold px-3 py-1.5 rounded-bl-xl z-10 shadow-sm uppercase tracking-wider">{plan.badge}</div>}
                                         <div className="absolute top-4 right-4 z-20 w-12 h-12 bg-white dark:bg-gray-700 rounded-full p-2 shadow-lg flex items-center justify-center overflow-hidden"><SmartLogo src={logos[plan.provider]} alt={plan.provider} fallbackText={plan.provider} /></div>
@@ -719,26 +907,30 @@
                     {view === 'home' && <AIChatBot plans={plans} />}
 
                     {/* כפתורי יצירת קשר צפים */}
-                    <div className="fixed bottom-6 left-6 z-50 flex flex-col gap-3">
-                        <button onClick={() => setIsContactOpen(true)} className="bg-gray-800 hover:bg-gray-900 dark:bg-gray-700 dark:hover:bg-gray-600 text-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center transition-transform hover:scale-105">
-                            <MailIcon size={24} />
-                        </button>
-                        
-                        <a href={`https://wa.me/${MY_PHONE_NUMBER}`} target="_blank" rel="noreferrer" className="bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl transition-transform hover:scale-105 flex items-center gap-3 group">
-                            <MessageCircle size={28} fill="white" className="text-green-500 animate-pulse" />
-                            <span className="font-bold hidden md:inline text-lg pr-1 group-hover:pr-2 transition-all">דברו איתנו בוואטסאפ</span>
-                        </a>
-                    </div>
-
-                    <footer className="bg-gray-900 dark:bg-black text-gray-400 py-10 text-center text-sm mt-auto">
-                        <div className="mb-4 flex items-center justify-center gap-2 opacity-75">
-                            <PhoneCall size={18} />
-                            <span className="font-bold text-lg">ללום פון</span>
+                    {view === 'home' && (
+                        <div className="fixed bottom-6 left-6 z-50 flex flex-col gap-3">
+                            <button onClick={() => setIsContactOpen(true)} className="bg-gray-800 hover:bg-gray-900 dark:bg-gray-700 dark:hover:bg-gray-600 text-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center transition-transform hover:scale-105">
+                                <MailIcon size={24} />
+                            </button>
+                            
+                            <a href={`https://wa.me/${MY_PHONE_NUMBER}`} target="_blank" rel="noreferrer" className="bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl transition-transform hover:scale-105 flex items-center gap-3 group">
+                                <MessageCircle size={28} fill="white" className="text-green-500 animate-pulse" />
+                                <span className="font-bold hidden md:inline text-lg pr-1 group-hover:pr-2 transition-all">דברו איתנו בוואטסאפ</span>
+                            </a>
                         </div>
-                        <p>© 2024 כל הזכויות שמורות.</p>
-                        <button onClick={() => setIsContactOpen(true)} className="mt-4 text-blue-400 hover:text-blue-300 underline">צור קשר באתר</button>
-                        <p className="mt-3 text-xs opacity-50 max-w-md mx-auto leading-relaxed">המחירים והמבצעים באחריות הספקים ונתונים לשינוי בהתאם לתקנון החברות. ט.ל.ח</p>
-                    </footer>
+                    )}
+
+                    {view === 'home' && (
+                        <footer className="bg-gray-900 dark:bg-black text-gray-400 py-10 text-center text-sm mt-auto">
+                            <div className="mb-4 flex items-center justify-center gap-2 opacity-75">
+                                <PhoneCall size={18} />
+                                <span className="font-bold text-lg">ללום פון</span>
+                            </div>
+                            <p>© 2024 כל הזכויות שמורות.</p>
+                            <button onClick={() => setIsContactOpen(true)} className="mt-4 text-blue-400 hover:text-blue-300 underline">צור קשר באתר</button>
+                            <p className="mt-3 text-xs opacity-50 max-w-md mx-auto leading-relaxed">המחירים והמבצעים באחריות הספקים ונתונים לשינוי בהתאם לתקנון החברות. ט.ל.ח</p>
+                        </footer>
+                    )}
                 </div>
             );
         };
@@ -748,4 +940,5 @@
     </script>
 </body>
 </html>
+
 
