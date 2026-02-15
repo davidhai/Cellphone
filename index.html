@@ -125,6 +125,7 @@
         const ShareIcon = ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>;
         const ChevronDown = ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>;
         const ChartIcon = ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>;
+        const HelpCircle = ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>;
 
         const SmartLogo = ({ src, alt, fallbackText }) => {
             const [error, setError] = useState(false);
@@ -135,57 +136,57 @@
         // --- נתוני גיבוי ---
         const initialPlansData = [
             // 5G Plans
-            { id: 'p5g-1', category: '5G', provider: 'Partner', providerName: 'Partner Queen 5G', color: 'bg-teal-500', price: '39.9', priceDetail: 'לחודש (ל-3 חודשים ראשונים)', afterPrice: 'מחודש 4: 49.9 ₪', features: ['5000 דקות / 5000 הודעות', '500GB גלישה', '400 דקות שיחה לחו״ל'], isHot: true },
-            { id: 'p5g-2', category: '5G', provider: 'Partner', providerName: 'Partner King 5G', color: 'bg-teal-500', price: '59.9', priceDetail: 'מחיר קבוע לחודש', features: ['6000 דקות / 6000 הודעות', '800GB גלישה', '500 דקות שיחה לחו״ל', 'עלות סים: 10 ₪'], isHot: false },
-            { id: 'p5g-3', category: '5G', provider: 'Partner', providerName: 'Partner Golden 5G', color: 'bg-teal-500', price: '39.9', priceDetail: 'לחודש (למשך שנה)', afterPrice: 'לאחר שנה: 59.9 ₪', features: ['5000 דקות / 5000 הודעות', '500GB גלישה', '200 דקות שיחה לחו״ל', 'עלות סים: 9.9 ₪'], isHot: false },
-            { id: 'c5g-1', category: '5G', provider: 'Cellcom', providerName: '5G Pro (כולל חו״ל)', color: 'bg-purple-700', price: '119.9', priceDetail: 'מחיר קבוע לחודש', features: ['1500GB גלישה', '5GB גלישה בחו״ל', '50 דקות/SMS מחו״ל לישראל', 'ללא עלות סים', 'גלישה חופשית באפליקציות'], isHot: false },
-            { id: 'c5g-2', category: '5G', provider: 'Cellcom', providerName: 'סלקום משתלם 5G', color: 'bg-purple-700', price: '39.9', priceDetail: 'לחודש (לחודשיים ראשונים)', afterPrice: 'אח"כ: 59.9 למנוי (או 49.9 ל-2+ מנויים)', features: ['5000 דקות / 5000 הודעות', '800GB גלישה', '500 דקות לחו״ל', 'סים בחיוב-זיכוי'], isHot: true },
-            { id: 'h5g-1', category: '5G', provider: 'HotMobile', providerName: 'Basic 5G', color: 'bg-red-600', price: '45.9', priceDetail: 'לחודש (למשך שנה)', afterPrice: '37 ₪ בצירוף 3 מנויים ומעלה', features: ['4000 דקות / 4000 הודעות', '600GB גלישה', '150 דקות לחו״ל', 'עלות סים: 10.9 ₪'], isHot: false },
-            { id: 'h5g-2', category: '5G', provider: 'HotMobile', providerName: '5G Premium (חו״ל)', color: 'bg-red-600', price: '109.9', priceDetail: 'מחיר לחודש', features: ['10,000 דקות והודעות', '3000GB גלישה!', '500 דקות לחו״ל', '10GB גלישה בחו״ל', 'ללא עלות סים'], isHot: false },
-            { id: 'h5g-3', category: '5G', provider: 'HotMobile', providerName: 'Basic 5G 800GB', color: 'bg-red-600', price: '32.9', priceDetail: 'לחודש (לחודשיים ראשונים)', afterPrice: 'אח"כ: 52.9 למשך שנתיים', features: ['4000 דקות / 4000 הודעות', '800GB גלישה', '100 דקות לחו״ל', 'עלות סים: 10.9 ₪'], isHot: true },
-            { id: 'h5g-4', category: '5G', provider: 'HotMobile', providerName: 'HOT 5G Social', color: 'bg-red-600', price: '39.9', priceDetail: 'מחיר קבוע (35 ל-2+ קווים)', features: ['3500 דקות / 3500 הודעות', '300GB גלישה', 'גלישה חופשית ברשתות חברתיות', 'ללא עלות סים'], isHot: false },
-            { id: 'h5g-5', category: '5G', provider: 'HotMobile', providerName: '5G Plus + NEXT TV', color: 'bg-red-600', price: '59.9', priceDetail: 'למשך 3 שנים (חודש 1 חינם)', features: ['1500GB גלישה', 'כולל אפליקציית NEXT TV', '5000 דקות והודעות', 'גלישה חופשית ברשתות'], isHot: true, badge: 'כולל TV' },
-            { id: 'pel5g-1', category: '5G', provider: 'Pelephone', providerName: '5G Together', color: 'bg-blue-500', price: '39', priceDetail: 'לחודש (בודד)', afterPrice: '35 ל-2 קווים / 33 ל-3 קווים', features: ['5000 דקות / 5000 הודעות', '500GB גלישה', 'רשתות חברתיות חופשי', 'ללא עלות סים'], isHot: true },
-            { id: 'pel5g-2', category: '5G', provider: 'Pelephone', providerName: '800GB 5G Plus', color: 'bg-blue-500', price: '39.9', priceDetail: 'לחודש (למשך שנה)', features: ['5000 דקות / 5000 הודעות', '800GB גלישה', 'רשתות חברתיות חופשי', 'ללא עלות סים'], isHot: false },
-            { id: 'pel5g-3', category: '5G', provider: 'Pelephone', providerName: '5G Max VIP All', color: 'bg-blue-500', price: '44.9', priceDetail: 'לחודש (לחודשיים ראשונים)', afterPrice: 'אח"כ: 59.9 למשך שנתיים', features: ['2000GB גלישה ענקית', '5000 דקות / 5000 הודעות', 'ללא עלות סים'], isHot: false },
-            { id: 'pel5g-4', category: '5G', provider: 'Pelephone', providerName: '1000GB 5G All In', color: 'bg-blue-500', price: '39.9', priceDetail: 'לחודש (לחצי שנה)', afterPrice: 'אח"כ: 49.9 למשך שנתיים', features: ['1000GB גלישה', '5000 דקות / 5000 הודעות', 'ללא עלות סים'], isHot: true },
-            { id: 'gol5g-1', category: '5G', provider: 'Golan', providerName: 'Golan 5G זוגי', color: 'bg-pink-600', price: '39', priceDetail: 'מחיר קבוע (35 ל-2+ מנויים)', features: ['5000 דקות / 5000 הודעות', '750GB גלישה', '300 דקות לחו״ל', 'ללא עלות סים'], isHot: true },
-            { id: 'we5g-1', category: '5G', provider: 'WeCom', providerName: 'Global 5G', color: 'bg-orange-500', price: '59.9', priceDetail: 'מחיר קבוע ללא הגבלה', afterPrice: 'דמי חיבור חד פעמי: 79.9', features: ['10,000GB גלישה (10TB)', '5GB גלישה בחו״ל', '3000 דקות/הודעות', 'ללא עלות סים'], isHot: true },
-            { id: 'we5g-2', category: '5G', provider: 'WeCom', providerName: 'Free 5G Max', color: 'bg-orange-500', price: '39.9', priceDetail: 'מחיר קבוע (36 ל-2+ מנויים)', features: ['10,000GB גלישה (10TB)', '3000 הודעות / 5000 דקות', 'ללא עלות סים'], isHot: true },
-            { id: 'we5g-3', category: '5G', provider: 'WeCom', providerName: '300GB 5G', color: 'bg-orange-500', price: '34', priceDetail: 'לחודש (למשך שנתיים)', features: ['300GB גלישה', '3000 הודעות / 5000 דקות', 'ללא עלות סים'], isHot: false },
+            { id: 'p5g-1', category: '5G', provider: 'Partner', providerName: 'Partner Queen 5G', color: 'bg-teal-500', price: '39.9', priceDetail: 'לחודש (ל-3 חודשים ראשונים)', afterPrice: 'מחודש 4: 49.9 ₪', features: ['5000 דקות / 5000 הודעות', '500GB גלישה', '400 דקות שיחה לחו״ל'], isHot: true, clicks: 0 },
+            { id: 'p5g-2', category: '5G', provider: 'Partner', providerName: 'Partner King 5G', color: 'bg-teal-500', price: '59.9', priceDetail: 'מחיר קבוע לחודש', features: ['6000 דקות / 6000 הודעות', '800GB גלישה', '500 דקות שיחה לחו״ל', 'עלות סים: 10 ₪'], isHot: false, clicks: 0 },
+            { id: 'p5g-3', category: '5G', provider: 'Partner', providerName: 'Partner Golden 5G', color: 'bg-teal-500', price: '39.9', priceDetail: 'לחודש (למשך שנה)', afterPrice: 'לאחר שנה: 59.9 ₪', features: ['5000 דקות / 5000 הודעות', '500GB גלישה', '200 דקות שיחה לחו״ל', 'עלות סים: 9.9 ₪'], isHot: false, clicks: 0 },
+            { id: 'c5g-1', category: '5G', provider: 'Cellcom', providerName: '5G Pro (כולל חו״ל)', color: 'bg-purple-700', price: '119.9', priceDetail: 'מחיר קבוע לחודש', features: ['1500GB גלישה', '5GB גלישה בחו״ל', '50 דקות/SMS מחו״ל לישראל', 'ללא עלות סים', 'גלישה חופשית באפליקציות'], isHot: false, clicks: 0 },
+            { id: 'c5g-2', category: '5G', provider: 'Cellcom', providerName: 'סלקום משתלם 5G', color: 'bg-purple-700', price: '39.9', priceDetail: 'לחודש (לחודשיים ראשונים)', afterPrice: 'אח"כ: 59.9 למנוי (או 49.9 ל-2+ מנויים)', features: ['5000 דקות / 5000 הודעות', '800GB גלישה', '500 דקות לחו״ל', 'סים בחיוב-זיכוי'], isHot: true, clicks: 0 },
+            { id: 'h5g-1', category: '5G', provider: 'HotMobile', providerName: 'Basic 5G', color: 'bg-red-600', price: '45.9', priceDetail: 'לחודש (למשך שנה)', afterPrice: '37 ₪ בצירוף 3 מנויים ומעלה', features: ['4000 דקות / 4000 הודעות', '600GB גלישה', '150 דקות לחו״ל', 'עלות סים: 10.9 ₪'], isHot: false, clicks: 0 },
+            { id: 'h5g-2', category: '5G', provider: 'HotMobile', providerName: '5G Premium (חו״ל)', color: 'bg-red-600', price: '109.9', priceDetail: 'מחיר לחודש', features: ['10,000 דקות והודעות', '3000GB גלישה!', '500 דקות לחו״ל', '10GB גלישה בחו״ל', 'ללא עלות סים'], isHot: false, clicks: 0 },
+            { id: 'h5g-3', category: '5G', provider: 'HotMobile', providerName: 'Basic 5G 800GB', color: 'bg-red-600', price: '32.9', priceDetail: 'לחודש (לחודשיים ראשונים)', afterPrice: 'אח"כ: 52.9 למשך שנתיים', features: ['4000 דקות / 4000 הודעות', '800GB גלישה', '100 דקות לחו״ל', 'עלות סים: 10.9 ₪'], isHot: true, clicks: 0 },
+            { id: 'h5g-4', category: '5G', provider: 'HotMobile', providerName: 'HOT 5G Social', color: 'bg-red-600', price: '39.9', priceDetail: 'מחיר קבוע (35 ל-2+ קווים)', features: ['3500 דקות / 3500 הודעות', '300GB גלישה', 'גלישה חופשית ברשתות חברתיות', 'ללא עלות סים'], isHot: false, clicks: 0 },
+            { id: 'h5g-5', category: '5G', provider: 'HotMobile', providerName: '5G Plus + NEXT TV', color: 'bg-red-600', price: '59.9', priceDetail: 'למשך 3 שנים (חודש 1 חינם)', features: ['1500GB גלישה', 'כולל אפליקציית NEXT TV', '5000 דקות והודעות', 'גלישה חופשית ברשתות'], isHot: true, badge: 'כולל TV', clicks: 0 },
+            { id: 'pel5g-1', category: '5G', provider: 'Pelephone', providerName: '5G Together', color: 'bg-blue-500', price: '39', priceDetail: 'לחודש (בודד)', afterPrice: '35 ל-2 קווים / 33 ל-3 קווים', features: ['5000 דקות / 5000 הודעות', '500GB גלישה', 'רשתות חברתיות חופשי', 'ללא עלות סים'], isHot: true, clicks: 0 },
+            { id: 'pel5g-2', category: '5G', provider: 'Pelephone', providerName: '800GB 5G Plus', color: 'bg-blue-500', price: '39.9', priceDetail: 'לחודש (למשך שנה)', features: ['5000 דקות / 5000 הודעות', '800GB גלישה', 'רשתות חברתיות חופשי', 'ללא עלות סים'], isHot: false, clicks: 0 },
+            { id: 'pel5g-3', category: '5G', provider: 'Pelephone', providerName: '5G Max VIP All', color: 'bg-blue-500', price: '44.9', priceDetail: 'לחודש (לחודשיים ראשונים)', afterPrice: 'אח"כ: 59.9 למשך שנתיים', features: ['2000GB גלישה ענקית', '5000 דקות / 5000 הודעות', 'ללא עלות סים'], isHot: false, clicks: 0 },
+            { id: 'pel5g-4', category: '5G', provider: 'Pelephone', providerName: '1000GB 5G All In', color: 'bg-blue-500', price: '39.9', priceDetail: 'לחודש (לחצי שנה)', afterPrice: 'אח"כ: 49.9 למשך שנתיים', features: ['1000GB גלישה', '5000 דקות / 5000 הודעות', 'ללא עלות סים'], isHot: true, clicks: 0 },
+            { id: 'gol5g-1', category: '5G', provider: 'Golan', providerName: 'Golan 5G זוגי', color: 'bg-pink-600', price: '39', priceDetail: 'מחיר קבוע (35 ל-2+ מנויים)', features: ['5000 דקות / 5000 הודעות', '750GB גלישה', '300 דקות לחו״ל', 'ללא עלות סים'], isHot: true, clicks: 0 },
+            { id: 'we5g-1', category: '5G', provider: 'WeCom', providerName: 'Global 5G', color: 'bg-orange-500', price: '59.9', priceDetail: 'מחיר קבוע ללא הגבלה', afterPrice: 'דמי חיבור חד פעמי: 79.9', features: ['10,000GB גלישה (10TB)', '5GB גלישה בחו״ל', '3000 דקות/הודעות', 'ללא עלות סים'], isHot: true, clicks: 0 },
+            { id: 'we5g-2', category: '5G', provider: 'WeCom', providerName: 'Free 5G Max', color: 'bg-orange-500', price: '39.9', priceDetail: 'מחיר קבוע (36 ל-2+ מנויים)', features: ['10,000GB גלישה (10TB)', '3000 הודעות / 5000 דקות', 'ללא עלות סים'], isHot: true, clicks: 0 },
+            { id: 'we5g-3', category: '5G', provider: 'WeCom', providerName: '300GB 5G', color: 'bg-orange-500', price: '34', priceDetail: 'לחודש (למשך שנתיים)', features: ['300GB גלישה', '3000 הודעות / 5000 דקות', 'ללא עלות סים'], isHot: false, clicks: 0 },
 
             // 4G Plans
-            { id: 'p4g-1', category: '4G', provider: 'Partner', providerName: 'Partner Star 4G', color: 'bg-teal-500', price: '39.9', priceDetail: 'לחודש (למשך שנה)', afterPrice: '30 ₪ בצירוף 2 מנויים ומעלה', features: ['3500 דקות / 3500 הודעות', '400GB גלישה', 'עלות סים: 9.9 ₪'], isHot: false },
-            { id: 'pel4g-1', category: '4G', provider: 'Pelephone', providerName: '300GB Perfect', color: 'bg-blue-500', price: '29.9', priceDetail: 'לחודש (למשך שנה)', features: ['3000 דקות / 3000 הודעות', '300GB גלישה', 'ללא עלות סים'], isHot: true },
-            { id: 'pel4g-2', category: '4G', provider: 'Pelephone', providerName: '400GB Family', color: 'bg-blue-500', price: '39.9', priceDetail: 'לחודש (למשך שנה)', afterPrice: 'הנחות למשפחה (עד 28 ₪ לקו)', features: ['3500 דקות / 3500 הודעות', '400GB גלישה', 'ללא עלות סים', 'הנחה ל-2 מנויים ומעלה'], isHot: false },
-            { id: 'c4g-1', category: '4G', provider: 'Cellcom', providerName: 'סלקום מושלם 4G', color: 'bg-purple-700', price: '39.9', priceDetail: 'לחודש (למשך שנה)', afterPrice: '34.9 ₪ בצירוף 3 קווים ומעלה', features: ['3500 דקות / 3500 הודעות', '400GB גלישה', '150 דקות לחו״ל'], isHot: false },
-            { id: 'c4g-2', category: '4G', provider: 'Cellcom', providerName: 'סלקום אקסטרה 4G', color: 'bg-purple-700', price: '39.9', priceDetail: 'לחודש (למשך שנה)', features: ['3500 דקות / 3500 הודעות', '400GB גלישה', '500 דקות לחו״ל'], isHot: true },
-            { id: 'h4g-1', category: '4G', provider: 'HotMobile', providerName: 'HOT 200GB', color: 'bg-red-600', price: '27.9', priceDetail: 'לחודש (למשך שנה)', features: ['3000 דקות / 3000 הודעות', '200GB גלישה', '100 דקות לחו״ל', 'עלות סים: 10.9 ₪'], isHot: true },
-            { id: 'h4g-2', category: '4G', provider: 'HotMobile', providerName: 'HOT Top 400GB', color: 'bg-red-600', price: '39.9', priceDetail: 'לחודש (למשך שנה)', afterPrice: '30 ₪ בצירוף 3 מנויים ומעלה', features: ['3500 דקות / 3500 הודעות', '400GB גלישה', '150 דקות לחו״ל', 'עלות סים: 10.9 ₪'], isHot: false },
-            { id: 'h4g-3', category: '4G', provider: 'HotMobile', providerName: 'HOT Top 250GB', color: 'bg-red-600', price: '29.9', priceDetail: 'לחודש', afterPrice: '25 ₪ בצירוף 2 מנויים ומעלה', features: ['3000 דקות / 3000 הודעות', '250GB גלישה', '100 דקות לחו״ל', 'עלות סים: 10.9 ₪'], isHot: false },
-            { id: 'h4g-4', category: '4G', provider: 'HotMobile', providerName: 'HOT Top 150GB', color: 'bg-red-600', price: '25.9', priceDetail: 'לחודש (למשך שנה)', features: ['3000 דקות / 3000 הודעות', '150GB גלישה', '100 דקות לחו״ל', 'עלות סים: 10.9 ₪'], isHot: false },
-            { id: 'gol4g-1', category: '4G', provider: 'Golan', providerName: 'גולן 2 קווים ב-60', color: 'bg-pink-600', price: '30', priceDetail: 'לקו (מותנה ב-2 קווים)', afterPrice: 'תוכנית יחיד ללא תנאי: 29.9 ₪', features: ['4000 דקות / 4000 הודעות', '350GB גלישה', 'עלות סים: 1 ₪'], isHot: true },
-            { id: 'gol4g-2', category: '4G', provider: 'Golan', providerName: 'גולן מבצע חודשיים', color: 'bg-pink-600', price: '24.9', priceDetail: 'לחודשיים ראשונים', afterPrice: 'החל מחודש 3: 34.9 ₪', features: ['4000 דקות / 4000 הודעות', '400GB גלישה', '240 דקות לחו״ל', 'עלות סים: 1 ₪'], isHot: false },
-            { id: 'we4g-1', category: '4G', provider: 'WeCom', providerName: 'WeFunGlobal 4G', color: 'bg-orange-500', price: '49.9', priceDetail: 'מחיר קבוע ללא הגבלה', afterPrice: 'דמי חיבור חד פעמי: 79.9', features: ['7000GB גלישה (7TB)', '5GB גלישה בחו״ל', '3000 דקות / 3000 הודעות', 'ללא עלות סים'], isHot: true },
-            { id: 'we4g-2', category: '4G', provider: 'WeCom', providerName: 'Free 4G', color: 'bg-orange-500', price: '34.9', priceDetail: 'מחיר קבוע', afterPrice: '2 מנויים ומעלה: 29.9 ₪', features: ['10,000GB גלישה (10TB)', '5000 דקות / 3000 הודעות', 'ללא עלות סים'], isHot: true },
-            { id: 'we4g-3', category: '4G', provider: 'WeCom', providerName: '300GB 4G', color: 'bg-orange-500', price: '28', priceDetail: 'לחודש (למשך שנתיים)', features: ['300GB גלישה', '5000 דקות / 3000 הודעות', 'ללא עלות סים'], isHot: false },
+            { id: 'p4g-1', category: '4G', provider: 'Partner', providerName: 'Partner Star 4G', color: 'bg-teal-500', price: '39.9', priceDetail: 'לחודש (למשך שנה)', afterPrice: '30 ₪ בצירוף 2 מנויים ומעלה', features: ['3500 דקות / 3500 הודעות', '400GB גלישה', 'עלות סים: 9.9 ₪'], isHot: false, clicks: 0 },
+            { id: 'pel4g-1', category: '4G', provider: 'Pelephone', providerName: '300GB Perfect', color: 'bg-blue-500', price: '29.9', priceDetail: 'לחודש (למשך שנה)', features: ['3000 דקות / 3000 הודעות', '300GB גלישה', 'ללא עלות סים'], isHot: true, clicks: 0 },
+            { id: 'pel4g-2', category: '4G', provider: 'Pelephone', providerName: '400GB Family', color: 'bg-blue-500', price: '39.9', priceDetail: 'לחודש (למשך שנה)', afterPrice: 'הנחות למשפחה (עד 28 ₪ לקו)', features: ['3500 דקות / 3500 הודעות', '400GB גלישה', 'ללא עלות סים', 'הנחה ל-2 מנויים ומעלה'], isHot: false, clicks: 0 },
+            { id: 'c4g-1', category: '4G', provider: 'Cellcom', providerName: 'סלקום מושלם 4G', color: 'bg-purple-700', price: '39.9', priceDetail: 'לחודש (למשך שנה)', afterPrice: '34.9 ₪ בצירוף 3 קווים ומעלה', features: ['3500 דקות / 3500 הודעות', '400GB גלישה', '150 דקות לחו״ל'], isHot: false, clicks: 0 },
+            { id: 'c4g-2', category: '4G', provider: 'Cellcom', providerName: 'סלקום אקסטרה 4G', color: 'bg-purple-700', price: '39.9', priceDetail: 'לחודש (למשך שנה)', features: ['3500 דקות / 3500 הודעות', '400GB גלישה', '500 דקות לחו״ל'], isHot: true, clicks: 0 },
+            { id: 'h4g-1', category: '4G', provider: 'HotMobile', providerName: 'HOT 200GB', color: 'bg-red-600', price: '27.9', priceDetail: 'לחודש (למשך שנה)', features: ['3000 דקות / 3000 הודעות', '200GB גלישה', '100 דקות לחו״ל', 'עלות סים: 10.9 ₪'], isHot: true, clicks: 0 },
+            { id: 'h4g-2', category: '4G', provider: 'HotMobile', providerName: 'HOT Top 400GB', color: 'bg-red-600', price: '39.9', priceDetail: 'לחודש (למשך שנה)', afterPrice: '30 ₪ בצירוף 3 מנויים ומעלה', features: ['3500 דקות / 3500 הודעות', '400GB גלישה', '150 דקות לחו״ל', 'עלות סים: 10.9 ₪'], isHot: false, clicks: 0 },
+            { id: 'h4g-3', category: '4G', provider: 'HotMobile', providerName: 'HOT Top 250GB', color: 'bg-red-600', price: '29.9', priceDetail: 'לחודש', afterPrice: '25 ₪ בצירוף 2 מנויים ומעלה', features: ['3000 דקות / 3000 הודעות', '250GB גלישה', '100 דקות לחו״ל', 'עלות סים: 10.9 ₪'], isHot: false, clicks: 0 },
+            { id: 'h4g-4', category: '4G', provider: 'HotMobile', providerName: 'HOT Top 150GB', color: 'bg-red-600', price: '25.9', priceDetail: 'לחודש (למשך שנה)', features: ['3000 דקות / 3000 הודעות', '150GB גלישה', '100 דקות לחו״ל', 'עלות סים: 10.9 ₪'], isHot: false, clicks: 0 },
+            { id: 'gol4g-1', category: '4G', provider: 'Golan', providerName: 'גולן 2 קווים ב-60', color: 'bg-pink-600', price: '30', priceDetail: 'לקו (מותנה ב-2 קווים)', afterPrice: 'תוכנית יחיד ללא תנאי: 29.9 ₪', features: ['4000 דקות / 4000 הודעות', '350GB גלישה', 'עלות סים: 1 ₪'], isHot: true, clicks: 0 },
+            { id: 'gol4g-2', category: '4G', provider: 'Golan', providerName: 'גולן מבצע חודשיים', color: 'bg-pink-600', price: '24.9', priceDetail: 'לחודשיים ראשונים', afterPrice: 'החל מחודש 3: 34.9 ₪', features: ['4000 דקות / 4000 הודעות', '400GB גלישה', '240 דקות לחו״ל', 'עלות סים: 1 ₪'], isHot: false, clicks: 0 },
+            { id: 'we4g-1', category: '4G', provider: 'WeCom', providerName: 'WeFunGlobal 4G', color: 'bg-orange-500', price: '49.9', priceDetail: 'מחיר קבוע ללא הגבלה', afterPrice: 'דמי חיבור חד פעמי: 79.9', features: ['7000GB גלישה (7TB)', '5GB גלישה בחו״ל', '3000 דקות / 3000 הודעות', 'ללא עלות סים'], isHot: true, clicks: 0 },
+            { id: 'we4g-2', category: '4G', provider: 'WeCom', providerName: 'Free 4G', color: 'bg-orange-500', price: '34.9', priceDetail: 'מחיר קבוע', afterPrice: '2 מנויים ומעלה: 29.9 ₪', features: ['10,000GB גלישה (10TB)', '5000 דקות / 3000 הודעות', 'ללא עלות סים'], isHot: true, clicks: 0 },
+            { id: 'we4g-3', category: '4G', provider: 'WeCom', providerName: '300GB 4G', color: 'bg-orange-500', price: '28', priceDetail: 'לחודש (למשך שנתיים)', features: ['300GB גלישה', '5000 דקות / 3000 הודעות', 'ללא עלות סים'], isHot: false, clicks: 0 },
 
             // Kosher Plans
-            { id: 'k-par-1', category: 'Kosher', provider: 'Partner', providerName: 'New Kosher Partner', color: 'bg-teal-500', price: '29.9', priceDetail: 'לחודש ללא הגבלה', afterPrice: '25 ₪ בצירוף 2 מנויים ומעלה', features: ['6000 דקות שיחה', '500 דקות לחו״ל', 'עלות סים: 9.9 ₪'], isHot: false },
-            { id: 'k-pel-1', category: 'Kosher', provider: 'Pelephone', providerName: 'פלאפון כשר', color: 'bg-blue-500', price: '29.9', priceDetail: 'לחודש (למשך שנה)', afterPrice: '20 ₪ בצירוף 2 מנויים ומעלה', features: ['4000 דקות שיחה', '500 דקות לחו״ל', 'ללא עלות סים'], isHot: true },
-            { id: 'k-cel-1', category: 'Kosher', provider: 'Cellcom', providerName: 'סלקום כשר', color: 'bg-purple-700', price: '29', priceDetail: 'לחודש (למשך שנתיים)', afterPrice: '25 ₪ בצירוף 2 קווים ומעלה', features: ['4000 דקות שיחה', '500 דקות לחו״ל', 'עלות סים: 9.9 ₪'], isHot: false },
-            { id: 'k-cel-2', category: 'Kosher', provider: 'Cellcom', providerName: 'כשר אקסטרה', color: 'bg-purple-700', price: '35', priceDetail: 'לחודש (למשך שנתיים)', afterPrice: '30 ₪ בצירוף 2 קווים ומעלה', features: ['5000 דקות שיחה', '500 דקות לחו״ל', 'סים כשר'], isHot: true },
-            { id: 'k-hot-1', category: 'Kosher', provider: 'HotMobile', providerName: 'Kosher 5000M', color: 'bg-red-600', price: '26', priceDetail: 'לחודש ללא הגבלה', afterPrice: '25 ₪ בצירוף 2 קווים ומעלה', features: ['5000 דקות שיחה', '700 דקות לחו״ל', 'עלות סים: 10.9 ₪'], isHot: true },
-            { id: 'k-hot-2', category: 'Kosher', provider: 'HotMobile', providerName: 'Kosher 10000M', color: 'bg-red-600', price: '39', priceDetail: 'לחודש (למשך שנתיים)', afterPrice: 'חודש 1 חינם! 30 ₪ ל-2 קווים ומעלה', features: ['10,000 דקות שיחה', '700 דקות לחו״ל', 'עלות סים: 10.9 ₪'], isHot: false },
-            { id: 'k-gol-1', category: 'Kosher', provider: 'Golan', providerName: 'כשר אקסטרה', color: 'bg-pink-600', price: '27.9', priceDetail: 'לחודש (למשך שנתיים)', features: ['7000 דקות שיחה', '500 דקות לחו״ל', 'עלות סים: 1 ₪'], isHot: true },
-            { id: 'k-gol-2', category: 'Kosher', provider: 'Golan', providerName: 'גולן כשר', color: 'bg-pink-600', price: '25', priceDetail: 'לחודש (למשך שנתיים)', features: ['5000 דקות שיחה', 'ללא גלישה/SMS', 'עלות סים: 1 ₪'], isHot: false },
+            { id: 'k-par-1', category: 'Kosher', provider: 'Partner', providerName: 'New Kosher Partner', color: 'bg-teal-500', price: '29.9', priceDetail: 'לחודש ללא הגבלה', afterPrice: '25 ₪ בצירוף 2 מנויים ומעלה', features: ['6000 דקות שיחה', '500 דקות לחו״ל', 'עלות סים: 9.9 ₪'], isHot: false, clicks: 0 },
+            { id: 'k-pel-1', category: 'Kosher', provider: 'Pelephone', providerName: 'פלאפון כשר', color: 'bg-blue-500', price: '29.9', priceDetail: 'לחודש (למשך שנה)', afterPrice: '20 ₪ בצירוף 2 מנויים ומעלה', features: ['4000 דקות שיחה', '500 דקות לחו״ל', 'ללא עלות סים'], isHot: true, clicks: 0 },
+            { id: 'k-cel-1', category: 'Kosher', provider: 'Cellcom', providerName: 'סלקום כשר', color: 'bg-purple-700', price: '29', priceDetail: 'לחודש (למשך שנתיים)', afterPrice: '25 ₪ בצירוף 2 קווים ומעלה', features: ['4000 דקות שיחה', '500 דקות לחו״ל', 'עלות סים: 9.9 ₪'], isHot: false, clicks: 0 },
+            { id: 'k-cel-2', category: 'Kosher', provider: 'Cellcom', providerName: 'כשר אקסטרה', color: 'bg-purple-700', price: '35', priceDetail: 'לחודש (למשך שנתיים)', afterPrice: '30 ₪ בצירוף 2 קווים ומעלה', features: ['5000 דקות שיחה', '500 דקות לחו״ל', 'סים כשר'], isHot: true, clicks: 0 },
+            { id: 'k-hot-1', category: 'Kosher', provider: 'HotMobile', providerName: 'Kosher 5000M', color: 'bg-red-600', price: '26', priceDetail: 'לחודש ללא הגבלה', afterPrice: '25 ₪ בצירוף 2 קווים ומעלה', features: ['5000 דקות שיחה', '700 דקות לחו״ל', 'עלות סים: 10.9 ₪'], isHot: true, clicks: 0 },
+            { id: 'k-hot-2', category: 'Kosher', provider: 'HotMobile', providerName: 'Kosher 10000M', color: 'bg-red-600', price: '39', priceDetail: 'לחודש (למשך שנתיים)', afterPrice: 'חודש 1 חינם! 30 ₪ ל-2 קווים ומעלה', features: ['10,000 דקות שיחה', '700 דקות לחו״ל', 'עלות סים: 10.9 ₪'], isHot: false, clicks: 0 },
+            { id: 'k-gol-1', category: 'Kosher', provider: 'Golan', providerName: 'כשר אקסטרה', color: 'bg-pink-600', price: '27.9', priceDetail: 'לחודש (למשך שנתיים)', features: ['7000 דקות שיחה', '500 דקות לחו״ל', 'עלות סים: 1 ₪'], isHot: true, clicks: 0 },
+            { id: 'k-gol-2', category: 'Kosher', provider: 'Golan', providerName: 'גולן כשר', color: 'bg-pink-600', price: '25', priceDetail: 'לחודש (למשך שנתיים)', features: ['5000 דקות שיחה', 'ללא גלישה/SMS', 'עלות סים: 1 ₪'], isHot: false, clicks: 0 },
 
             // Fiber & TV Plans
-            { id: '31', category: 'Fiber', provider: 'Cellcom', providerName: 'סלקום פייבר', color: 'bg-purple-700', price: '39', priceDetail: 'לחודש (למשך 3 חודשים)', afterPrice: 'מחיר המשך 99 ₪', features: ['אינטרנט סיבים עוצמתי', 'ראוטר WiFi 7 כלול', 'מגדיל טווח כלול!', 'התקנה מהירה'], isHot: true, badge: 'מבצע מטורף' },
-            { id: '32', category: 'Fiber', provider: 'Cellcom', providerName: 'סלקום טריפל', color: 'bg-purple-700', price: '89', priceDetail: 'לחודש (למשך 3 חודשים)', afterPrice: 'מחיר המשך 149 ₪', features: ['טלוויזיה + אינטרנט סיבים', 'ראוטר WiFi 7 כלול', 'מגדיל טווח כלול', 'ממיר אחד כלול במחיר'], isHot: true, badge: 'טריפל שובר שוק' },
-            { id: '33', category: 'Fiber', provider: 'Hot', providerName: 'HOT סיבים 1000/100 מגה', color: 'bg-red-600', price: '99', priceDetail: 'לחודש (למשך שנה)', features: ['מהירות הורדה עד 1000Mbps', 'מהירות העלאה עד 100Mbps', 'נתב ומגדיל טווח כלול במחיר', 'התקנה חינם (בניין דירות)', 'עלות התקנה בית פרטי: 125 ₪', 'קוד מבצע: TBA'], isHot: false },
-            { id: '34', category: 'Fiber', provider: 'Hot', providerName: 'HOT סיבים 600/100 מגה', color: 'bg-red-600', price: '89', priceDetail: 'לחודש (למשך שנה)', features: ['מהירות הורדה עד 600Mbps', 'מהירות העלאה עד 100Mbps', 'נתב ומגדיל טווח כלול במחיר', 'התקנה חינם (בניין דירות)', 'עלות התקנה בית פרטי: 125 ₪', 'קוד מבצע: TBA'], isHot: false },
-            { id: '35', category: 'Fiber', provider: 'Hot', providerName: 'HOT טריפל NEXT + סיבים 1000', color: 'bg-red-600', price: '135', priceDetail: 'לחודש', features: ['אינטרנט סיבים 1000Mbps', 'טלוויזיה NEXT עם VOD', 'כולל 1 סטרימר עם 65 ערוצים', 'כלול במחיר: ראוטר ומגדיל טווח', 'כל סטרימר נוסף: 10 ₪ לחודש', 'דמי התקנה: 120 ₪ חד פעמי', 'עלות התקנה בבית פרטי שיש בו סיבים: 499 ₪ חד פעמי', 'קוד מבצע: NBO'], isHot: true, badge: 'הכל כלול' },
+            { id: '31', category: 'Fiber', provider: 'Cellcom', providerName: 'סלקום פייבר', color: 'bg-purple-700', price: '39', priceDetail: 'לחודש (למשך 3 חודשים)', afterPrice: 'מחיר המשך 99 ₪', features: ['אינטרנט סיבים עוצמתי', 'ראוטר WiFi 7 כלול', 'מגדיל טווח כלול!', 'התקנה מהירה'], isHot: true, badge: 'מבצע מטורף', clicks: 0 },
+            { id: '32', category: 'Fiber', provider: 'Cellcom', providerName: 'סלקום טריפל', color: 'bg-purple-700', price: '89', priceDetail: 'לחודש (למשך 3 חודשים)', afterPrice: 'מחיר המשך 149 ₪', features: ['טלוויזיה + אינטרנט סיבים', 'ראוטר WiFi 7 כלול', 'מגדיל טווח כלול', 'ממיר אחד כלול במחיר'], isHot: true, badge: 'טריפל שובר שוק', clicks: 0 },
+            { id: '33', category: 'Fiber', provider: 'Hot', providerName: 'HOT סיבים 1000/100 מגה', color: 'bg-red-600', price: '99', priceDetail: 'לחודש (למשך שנה)', features: ['מהירות הורדה עד 1000Mbps', 'מהירות העלאה עד 100Mbps', 'נתב ומגדיל טווח כלול במחיר', 'התקנה חינם (בניין דירות)', 'עלות התקנה בית פרטי: 125 ₪', 'קוד מבצע: TBA'], isHot: false, clicks: 0 },
+            { id: '34', category: 'Fiber', provider: 'Hot', providerName: 'HOT סיבים 600/100 מגה', color: 'bg-red-600', price: '89', priceDetail: 'לחודש (למשך שנה)', features: ['מהירות הורדה עד 600Mbps', 'מהירות העלאה עד 100Mbps', 'נתב ומגדיל טווח כלול במחיר', 'התקנה חינם (בניין דירות)', 'עלות התקנה בית פרטי: 125 ₪', 'קוד מבצע: TBA'], isHot: false, clicks: 0 },
+            { id: '35', category: 'Fiber', provider: 'Hot', providerName: 'HOT טריפל NEXT + סיבים 1000', color: 'bg-red-600', price: '135', priceDetail: 'לחודש', features: ['אינטרנט סיבים 1000Mbps', 'טלוויזיה NEXT עם VOD', 'כולל 1 סטרימר עם 65 ערוצים', 'כלול במחיר: ראוטר ומגדיל טווח', 'כל סטרימר נוסף: 10 ₪ לחודש', 'דמי התקנה: 120 ₪ חד פעמי', 'עלות התקנה בבית פרטי שיש בו סיבים: 499 ₪ חד פעמי', 'קוד מבצע: NBO'], isHot: true, badge: 'הכל כלול', clicks: 0 },
         ];
 
         // --- נתוני המלצות (Review Data) ---
@@ -196,12 +197,101 @@
         ];
 
         // --- שאלות ותשובות (FAQ Data) ---
-        const faqData = [
-            { question: "איך עוברים חברה דרך האתר?", answer: "פשוט בוחרים חבילה, לוחצים 'אני רוצה את זה' ושולחים הודעה לוואטסאפ שלנו. אנחנו נדאג לכל תהליך הניוד." },
-            { question: "האם המחירים כוללים מע\"מ?", answer: "כן, כל המחירים המוצגים באתר כוללים מע\"מ כחוק." },
-            { question: "מה זה סים בחיוב-זיכוי?", answer: "משלמים על הסים בחשבונית הראשונה ומקבלים זיכוי מלא עליו בחשבוניות הבאות." },
-            { question: "תוך כמה זמן הסים מגיע?", answer: "בדרך כלל תוך 3 ימי עסקים בדואר, או שליח עד הבית בתוספת תשלום." },
+        const initialFaqData = [
+            { id: 'faq1', question: "איך עוברים חברה דרך האתר?", answer: "פשוט בוחרים חבילה, לוחצים 'אני רוצה את זה' ושולחים הודעה לוואטסאפ שלנו. אנחנו נדאג לכל תהליך הניוד." },
+            { id: 'faq2', question: "האם המחירים כוללים מע\"מ?", answer: "כן, כל המחירים המוצגים באתר כוללים מע\"מ כחוק." },
+            { id: 'faq3', question: "מה זה סים בחיוב-זיכוי?", answer: "משלמים על הסים בחשבונית הראשונה ומקבלים זיכוי מלא עליו בחשבוניות הבאות." },
+            { id: 'faq4', question: "תוך כמה זמן הסים מגיע?", answer: "בדרך כלל תוך 3 ימי עסקים בדואר, או שליח עד הבית בתוספת תשלום." },
         ];
+
+        // --- רכיב דשבורד גרפים ---
+        const DashboardCharts = ({ messages, plans }) => {
+            const chartRef = useRef(null);
+            const clicksRef = useRef(null);
+            
+            useEffect(() => {
+                if (!chartRef.current || !clicksRef.current) return;
+
+                // 1. Inquiries Chart (Last 7 Days)
+                const last7Days = [...Array(7)].map((_, i) => {
+                    const d = new Date();
+                    d.setDate(d.getDate() - i);
+                    return d.toLocaleDateString('he-IL');
+                }).reverse();
+
+                const msgsPerDay = last7Days.map(date => {
+                    return messages.filter(m => {
+                        // Assuming message.date is localized string or timestamp. 
+                        // If it's a timestamp, convert. If it's a string, compare substrings.
+                        // Ideally store timestamps in DB. Here we try to parse the string date or timestamp.
+                        // Simple fallback: Check if m.date string contains the date part
+                        if (typeof m.timestamp === 'number') {
+                            return new Date(m.timestamp).toLocaleDateString('he-IL') === date;
+                        }
+                        return m.date.includes(date);
+                    }).length;
+                });
+
+                const ctx1 = chartRef.current.getContext('2d');
+                // Destroy old if exists (simplified by just creating new)
+                if (window.myChart1) window.myChart1.destroy();
+                window.myChart1 = new Chart(ctx1, {
+                    type: 'bar',
+                    data: {
+                        labels: last7Days,
+                        datasets: [{
+                            label: 'פניות ב-7 הימים האחרונים',
+                            data: msgsPerDay,
+                            backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                            borderColor: 'rgb(59, 130, 246)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: { scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                });
+
+                // 2. Most Clicked Plans
+                const topPlans = [...plans].sort((a,b) => (b.clicks || 0) - (a.clicks || 0)).slice(0, 5);
+                const ctx2 = clicksRef.current.getContext('2d');
+                if (window.myChart2) window.myChart2.destroy();
+                window.myChart2 = new Chart(ctx2, {
+                    type: 'doughnut',
+                    data: {
+                        labels: topPlans.map(p => p.providerName),
+                        datasets: [{
+                            label: 'קליקים',
+                            data: topPlans.map(p => p.clicks || 0),
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.6)',
+                                'rgba(54, 162, 235, 0.6)',
+                                'rgba(255, 206, 86, 0.6)',
+                                'rgba(75, 192, 192, 0.6)',
+                                'rgba(153, 102, 255, 0.6)',
+                            ],
+                            borderWidth: 1
+                        }]
+                    }
+                });
+
+                return () => {
+                    if (window.myChart1) window.myChart1.destroy();
+                    if (window.myChart2) window.myChart2.destroy();
+                };
+            }, [messages, plans]);
+
+            return (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow border dark:border-gray-700">
+                        <h3 className="font-bold mb-4 dark:text-white">פניות השבוע</h3>
+                        <canvas ref={chartRef}></canvas>
+                    </div>
+                    <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow border dark:border-gray-700">
+                        <h3 className="font-bold mb-4 dark:text-white">התוכניות הכי מבוקשות (קליקים)</h3>
+                        <canvas ref={clicksRef}></canvas>
+                    </div>
+                </div>
+            );
+        };
 
         // --- רכיב בוט AI ---
         const AIChatBot = ({ plans }) => {
@@ -325,7 +415,6 @@
             const [result, setResult] = useState(0);
 
             const calculate = () => {
-                // Approximate: Video=1GB/hr, Social=200MB/hr, Music=50MB/hr * 30 days
                 const gb = (usage.video * 1 * 30) + (usage.social * 0.2 * 30) + (usage.music * 0.05 * 30);
                 setResult(Math.ceil(gb));
             };
@@ -375,7 +464,7 @@
                     phone: e.target.phone.value,
                     message: e.target.message.value,
                     date: new Date().toLocaleString(),
-                    status: 'new' // סטטוס התחלתי
+                    status: 'new' 
                 };
                 onSend(formData);
                 alert("הפרטים נשלחו בהצלחה! נחזור אליך בהקדם.");
@@ -412,9 +501,10 @@
         const App = () => {
             const [plans, setPlans] = useState(initialPlansData);
             const [reviews, setReviews] = useState(initialReviews);
+            const [faqs, setFaqs] = useState(initialFaqData);
             const [loading, setLoading] = useState(true);
             const [view, setView] = useState('home'); 
-            const [adminTab, setAdminTab] = useState('dashboard'); // dashboard, plans, messages, popup, reviews
+            const [adminTab, setAdminTab] = useState('dashboard'); // dashboard, plans, messages, popup, reviews, faq
             
             const [activeCategory, setActiveCategory] = useState('5G');
             const [selectedProvider, setSelectedProvider] = useState('all');
@@ -427,11 +517,9 @@
             const [isContactOpen, setIsContactOpen] = useState(false);
             const [contactMessages, setContactMessages] = useState([]);
             
-            // New UX States
             const [comparisonList, setComparisonList] = useState([]);
             const [showComparison, setShowComparison] = useState(false);
             const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
-            const [sortBy, setSortBy] = useState('default'); // default, priceLow, priceHigh
 
             // הגדרות מודעה קופצת
             const [popupConfig, setPopupConfig] = useState({
@@ -479,6 +567,9 @@
                         const unsubscribeReviews = db.collection("reviews").onSnapshot((snapshot) => {
                              if (!snapshot.empty) setReviews(snapshot.docs.map(doc => doc.data()));
                         });
+                        const unsubscribeFaqs = db.collection("faqs").onSnapshot((snapshot) => {
+                             if (!snapshot.empty) setFaqs(snapshot.docs.map(doc => doc.data()));
+                        });
                         db.collection("settings").doc("popup").get().then((doc) => {
                             if (doc.exists) setPopupConfig(doc.data());
                         });
@@ -487,6 +578,7 @@
                             unsubscribePlans();
                             unsubscribeMessages();
                             unsubscribeReviews();
+                            unsubscribeFaqs();
                         };
                     }
                 } catch(e) {
@@ -565,7 +657,7 @@
             };
 
             const handleAddNewPlan = () => {
-                setCurrentPlan({ id: Date.now().toString(), category: activeCategory, provider: 'Cellcom', providerName: 'תוכנית חדשה', color: 'bg-gray-500', price: '0', priceDetail: '', features: [], isHot: false });
+                setCurrentPlan({ id: Date.now().toString(), category: activeCategory, provider: 'Cellcom', providerName: 'תוכנית חדשה', color: 'bg-gray-500', price: '0', priceDetail: '', features: [], isHot: false, clicks: 0 });
                 setIsEditModalOpen(true);
             };
 
@@ -591,6 +683,30 @@
                 setReviews([...reviews, newRev]);
             };
 
+            // ניהול שאלות ותשובות
+            const handleDeleteFaq = (id) => {
+                if (confirm('למחוק שאלה זו?')) {
+                     if (db) db.collection("faqs").doc(id.toString()).delete();
+                     setFaqs(faqs.filter(f => f.id !== id));
+                }
+            };
+            const handleAddFaq = () => {
+                const question = prompt("שאלה:");
+                if (!question) return;
+                const answer = prompt("תשובה:");
+                const newFaq = { id: Date.now().toString(), question, answer };
+                if (db) db.collection("faqs").doc(newFaq.id).set(newFaq);
+                setFaqs([...faqs, newFaq]);
+            };
+            const handleEditFaq = (faq) => {
+                 const question = prompt("שאלה:", faq.question);
+                 if (!question) return;
+                 const answer = prompt("תשובה:", faq.answer);
+                 const updatedFaq = { ...faq, question, answer };
+                 if (db) db.collection("faqs").doc(updatedFaq.id).set(updatedFaq);
+                 setFaqs(faqs.map(f => f.id === faq.id ? updatedFaq : f));
+            };
+
             // CRM - סטטוסים והערות
             const messageStatuses = {
                 'new': { label: 'חדש', color: 'bg-green-100 text-green-800' },
@@ -606,7 +722,6 @@
 
             const handleUpdateNote = (id, note) => {
                 if (db) db.collection("messages").doc(id).update({ note: note });
-                // עדכון לוקאלי אופטימי לא חובה אם יש onSnapshot, אבל טוב שיהיה
             };
 
             // שליחת הודעה
@@ -630,6 +745,13 @@
             };
 
             const handleOrder = (plan) => {
+                // Increment Clicks in DB
+                if (db) {
+                     db.collection("plans").doc(plan.id.toString()).update({
+                         clicks: firebase.firestore.FieldValue.increment(1)
+                     });
+                }
+                
                 const text = `היי ללום פון, אני מעוניין להצטרף לתוכנית הבאה:\n*שם התוכנית:* ${plan.providerName}\n*מחיר:* ${plan.price} ₪\n*פירוט המחיר:* ${plan.priceDetail}\n*מחיר המשך:* ${plan.afterPrice || 'ללא'}\n*קטגוריה:* ${plan.category}`;
                 const url = `https://wa.me/${MY_PHONE_NUMBER}?text=${encodeURIComponent(text)}`;
                 window.open(url, '_blank');
@@ -654,19 +776,12 @@
                 }
             };
 
-            // סינון ומיון
             const filteredPlans = useMemo(() => {
                 let res = plans.filter(plan => {
                     return (plan.category === activeCategory) && (selectedProvider === 'all' || plan.provider === selectedProvider);
                 });
-                
-                if (sortBy === 'priceLow') {
-                    res.sort((a,b) => parseFloat(a.price) - parseFloat(b.price));
-                } else if (sortBy === 'priceHigh') {
-                    res.sort((a,b) => parseFloat(b.price) - parseFloat(a.price));
-                }
                 return res;
-            }, [plans, activeCategory, selectedProvider, sortBy]);
+            }, [plans, activeCategory, selectedProvider]);
 
             const showProviderFilter = ['5G', '4G', 'Kosher'].includes(activeCategory);
             const unreadMessagesCount = contactMessages.filter(m => !m.read && m.status === 'new').length;
@@ -762,6 +877,7 @@
                                                     <>
                                                         <a href="#" onClick={() => setIsMenuOpen(false)} className="block w-full text-right px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">דף הבית</a>
                                                         <button onClick={() => { setIsContactOpen(true); setIsMenuOpen(false); }} className="block w-full text-right px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">צור קשר</button>
+                                                        <button onClick={() => { setIsCalculatorOpen(true); setIsMenuOpen(false); }} className="block w-full text-right px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 font-bold text-blue-600">מחשבון גלישה</button>
                                                         <button onClick={() => { setView('login'); setIsMenuOpen(false); }} className="block w-full text-right px-4 py-2 text-sm text-blue-600 dark:text-blue-400 font-bold hover:bg-blue-50 dark:hover:bg-gray-700">כניסה למנהלים</button>
                                                     </>
                                                 )}
@@ -792,26 +908,32 @@
                                     <button onClick={() => setAdminTab('messages')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-colors whitespace-nowrap flex items-center gap-2 ${adminTab === 'messages' ? 'bg-red-600 text-white' : 'bg-white dark:bg-gray-700 hover:bg-red-100 dark:text-gray-200'}`}>הודעות {unreadMessagesCount > 0 && <span className="bg-white text-red-600 text-xs px-2 py-0.5 rounded-full">{unreadMessagesCount}</span>}</button>
                                     <button onClick={() => setAdminTab('popup')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-colors whitespace-nowrap ${adminTab === 'popup' ? 'bg-red-600 text-white' : 'bg-white dark:bg-gray-700 hover:bg-red-100 dark:text-gray-200'}`}>הגדרות</button>
                                     <button onClick={() => setAdminTab('reviews')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-colors whitespace-nowrap ${adminTab === 'reviews' ? 'bg-red-600 text-white' : 'bg-white dark:bg-gray-700 hover:bg-red-100 dark:text-gray-200'}`}>המלצות</button>
+                                    <button onClick={() => setAdminTab('faq')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-colors whitespace-nowrap ${adminTab === 'faq' ? 'bg-red-600 text-white' : 'bg-white dark:bg-gray-700 hover:bg-red-100 dark:text-gray-200'}`}>שאלות/תשובות</button>
                                 </div>
                             </div>
 
                             <div className="max-w-6xl mx-auto p-4 md:p-6">
                                 {/* Dashboard */}
                                 {adminTab === 'dashboard' && (
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                        <div className="bg-blue-100 dark:bg-blue-900 p-6 rounded-xl text-center">
-                                            <div className="text-4xl font-black text-blue-700 dark:text-blue-300">{contactMessages.length}</div>
-                                            <div className="text-sm font-bold text-blue-800 dark:text-blue-200">סה"כ פניות</div>
+                                    <>
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                            <div className="bg-blue-100 dark:bg-blue-900 p-6 rounded-xl text-center">
+                                                <div className="text-4xl font-black text-blue-700 dark:text-blue-300">{contactMessages.length}</div>
+                                                <div className="text-sm font-bold text-blue-800 dark:text-blue-200">סה"כ פניות</div>
+                                            </div>
+                                            <div className="bg-green-100 dark:bg-green-900 p-6 rounded-xl text-center">
+                                                <div className="text-4xl font-black text-green-700 dark:text-green-300">{contactMessages.filter(m => m.status === 'closed').length}</div>
+                                                <div className="text-sm font-bold text-green-800 dark:text-green-200">עסקאות שנסגרו</div>
+                                            </div>
+                                            <div className="bg-purple-100 dark:bg-purple-900 p-6 rounded-xl text-center">
+                                                <div className="text-4xl font-black text-purple-700 dark:text-purple-300">{plans.length}</div>
+                                                <div className="text-sm font-bold text-purple-800 dark:text-purple-200">תוכניות פעילות</div>
+                                            </div>
                                         </div>
-                                        <div className="bg-green-100 dark:bg-green-900 p-6 rounded-xl text-center">
-                                            <div className="text-4xl font-black text-green-700 dark:text-green-300">{contactMessages.filter(m => m.status === 'closed').length}</div>
-                                            <div className="text-sm font-bold text-green-800 dark:text-green-200">עסקאות שנסגרו</div>
-                                        </div>
-                                        <div className="bg-purple-100 dark:bg-purple-900 p-6 rounded-xl text-center">
-                                            <div className="text-4xl font-black text-purple-700 dark:text-purple-300">{plans.length}</div>
-                                            <div className="text-sm font-bold text-purple-800 dark:text-purple-200">תוכניות פעילות</div>
-                                        </div>
-                                    </div>
+                                        
+                                        {/* גרפים */}
+                                        <DashboardCharts messages={contactMessages} plans={plans} />
+                                    </>
                                 )}
 
                                 {/* לשונית ניהול תוכניות */}
@@ -832,14 +954,17 @@
                                                     <div className="font-bold text-lg dark:text-white">{plan.providerName}</div>
                                                     <div className="text-xl font-black text-blue-600">{plan.price} ₪</div>
                                                     <div className="text-sm text-gray-500">{plan.features[0]}</div>
-                                                    <div className="mt-auto pt-2 text-xs text-gray-400 border-t dark:border-gray-700">{plan.provider}</div>
+                                                    <div className="mt-auto pt-2 text-xs text-gray-400 border-t dark:border-gray-700 flex justify-between">
+                                                        <span>{plan.provider}</span>
+                                                        <span>קליקים: {plan.clicks || 0}</span>
+                                                    </div>
                                                 </div>
                                             ))}
                                         </div>
                                     </>
                                 )}
 
-                                {/* לשונית הודעות - משודרגת */}
+                                {/* לשונית הודעות */}
                                 {adminTab === 'messages' && (
                                     <div className="max-w-4xl mx-auto space-y-4">
                                         <h2 className="text-2xl font-bold mb-6 dark:text-white">הודעות נכנסות</h2>
@@ -923,6 +1048,30 @@
                                         </div>
                                     </div>
                                 )}
+
+                                {/* לשונית שאלות ותשובות (FAQ) */}
+                                {adminTab === 'faq' && (
+                                    <div className="max-w-4xl mx-auto">
+                                        <div className="flex justify-between items-center mb-6">
+                                            <h2 className="text-xl font-bold dark:text-white">ניהול שאלות ותשובות</h2>
+                                            <button onClick={handleAddFaq} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold">הוסף שאלה</button>
+                                        </div>
+                                        <div className="space-y-4">
+                                            {faqs.map(faq => (
+                                                <div key={faq.id} className="bg-white dark:bg-gray-800 p-4 rounded-xl border dark:border-gray-700 relative flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                                    <div className="flex-1">
+                                                        <div className="font-bold text-lg dark:text-white mb-1"><span className="text-blue-600">ש:</span> {faq.question}</div>
+                                                        <div className="text-gray-600 dark:text-gray-300"><span className="text-green-600 font-bold">ת:</span> {faq.answer}</div>
+                                                    </div>
+                                                    <div className="flex gap-2">
+                                                        <button onClick={() => handleEditFaq(faq)} className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200"><EditIcon size={18}/></button>
+                                                        <button onClick={() => handleDeleteFaq(faq.id)} className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200"><TrashIcon size={18}/></button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}
@@ -931,7 +1080,7 @@
                     {!isEditModalOpen && view === 'home' && (
                         <main className="max-w-6xl mx-auto px-4 pb-32 mt-6">
                             
-                            {/* Toolbar: Sort, Calculator */}
+                            {/* Toolbar: Sort Removed, Only Provider Filter */}
                             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                                 {showProviderFilter && (
                                     <div className="overflow-x-auto pb-2 scrollbar-hide flex-1">
@@ -945,17 +1094,6 @@
                                         </div>
                                     </div>
                                 )}
-                                <div className="flex gap-2">
-                                     <button onClick={() => setIsCalculatorOpen(true)} className="flex items-center gap-2 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-3 py-2 rounded-lg text-sm font-bold whitespace-nowrap"><CalculatorIcon size={16}/> מחשבון</button>
-                                     <div className="relative">
-                                        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="appearance-none bg-white dark:bg-gray-800 border dark:border-gray-700 px-8 py-2 rounded-lg text-sm font-bold dark:text-white cursor-pointer focus:outline-none">
-                                            <option value="default">מיין לפי</option>
-                                            <option value="priceLow">מחיר: נמוך לגבוה</option>
-                                            <option value="priceHigh">מחיר: גבוה לנמוך</option>
-                                        </select>
-                                        <div className="absolute left-2 top-2.5 pointer-events-none text-gray-500"><ChevronDown size={16}/></div>
-                                     </div>
-                                </div>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 fade-in">
@@ -1037,8 +1175,8 @@
                             <div className="mt-8 max-w-3xl mx-auto">
                                 <h3 className="text-2xl font-bold text-center mb-6 dark:text-white">שאלות נפוצות</h3>
                                 <div className="space-y-3">
-                                    {faqData.map((faq, i) => (
-                                        <details key={i} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 group">
+                                    {faqs.map((faq, i) => (
+                                        <details key={faq.id || i} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 group">
                                             <summary className="flex justify-between items-center p-4 font-bold cursor-pointer dark:text-white group-open:text-blue-600">
                                                 {faq.question}
                                                 <ChevronDown size={20} className="transition-transform group-open:rotate-180"/>
