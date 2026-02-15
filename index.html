@@ -5,31 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ללום פון - המומחים בתקשורת</title>
     
-    <!-- הגדרת Tailwind עם תמיכה במצב לילה -->
+    <!-- טעינת ספריות יציבות -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        dark: {
-                            bg: '#121212',
-                            card: '#1e1e1e',
-                            text: '#e0e0e0',
-                            border: '#333333'
-                        }
-                    }
-                }
-            }
+            theme: { extend: { colors: { dark: { bg: '#121212', card: '#1e1e1e', text: '#e0e0e0', border: '#333333' } } } }
         }
     </script>
-
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <!-- Firebase Compat Library -->
+    <!-- Firebase Compat (הכי בטוח לשימוש בקובץ בודד) -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
@@ -39,28 +27,40 @@
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
         .fade-in { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
         .pop-up { animation: popUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         @keyframes popUp { from { opacity: 0; transform: scale(0.8) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-
         .pulse-custom { animation: pulseRed 1.5s infinite; }
         @keyframes pulseRed {
             0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
             70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
         }
-        
-        /* Dark Mode Transitions */
+        /* מעברי צבע חלקים למצב לילה */
         body, div, p, h1, h2, h3, span, button, input, select, textarea { transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans dark:bg-[#121212] dark:text-gray-100">
-    <div id="root"></div>
+    
+    <!-- אלמנט טעינה שיוחלף על ידי React -->
+    <div id="root">
+        <div style="display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column; gap:10px;">
+            <div style="width:40px; height:40px; border:4px solid #ddd; border-top-color:#3b82f6; border-radius:50%; animation:spin 1s linear infinite;"></div>
+            <div>טוען אתר...</div>
+            <style>@keyframes spin { 100% { transform: rotate(360deg); } }</style>
+        </div>
+    </div>
+
+    <!-- טיפול בשגיאות קריטיות -->
+    <script>
+        window.onerror = function(msg, url, line) {
+            document.getElementById('root').innerHTML = '<div style="padding:20px; text-align:center; color:red;"><h3>שגיאה בטעינת האתר</h3><p>' + msg + '</p></div>';
+        };
+    </script>
 
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // --- הגדרות Firebase שלך ---
+        // --- הגדרות Firebase ---
         const firebaseConfig = {
             apiKey: "AIzaSyAIxnlQvXqXbBs4w9F-PZPJcG8OGOzYey4",
             authDomain: "laloumphone-a38c9.firebaseapp.com",
@@ -70,13 +70,19 @@
             appId: "1:555557527628:web:df2f5c2710aaa8c25d54e9"
         };
 
-        let db;
+        // אתחול בטוח
+        let db = null;
         try {
-            if (!firebase.apps.length) {
+            if (typeof firebase !== 'undefined' && !firebase.apps.length) {
                 firebase.initializeApp(firebaseConfig);
+                db = firebase.firestore();
+                console.log("Firebase connected successfully");
+            } else if (typeof firebase !== 'undefined') {
+                db = firebase.firestore();
             }
-            db = firebase.firestore();
-        } catch (error) { console.error("Firebase error:", error); }
+        } catch (error) {
+            console.error("Firebase init failed:", error);
+        }
 
         // --- אייקונים ---
         const Icons = {
@@ -97,7 +103,8 @@
             Plus: ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>,
             Filter: ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>,
             User: ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>,
-            Clock: ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            Clock: ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>,
+            Layers: ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
         };
 
         const SmartLogo = ({ src, alt, fallbackText }) => {
@@ -107,9 +114,8 @@
         };
 
         const initialPlans = [
-            // הנתונים המקוריים לגיבוי
-             { id: 'p5g-1', category: '5G', provider: 'Partner', providerName: 'Partner Queen 5G', color: 'bg-teal-500', price: '39.9', priceDetail: 'לחודש (ל-3 חודשים ראשונים)', afterPrice: 'מחודש 4: 49.9 ₪', features: ['5000 דקות / 5000 הודעות', '500GB גלישה', '400 דקות שיחה לחו״ל'], isHot: true },
-             // ... שאר התוכניות נטענות אוטומטית מה-DB אם קיים, או מכאן
+            { id: 'p5g-1', category: '5G', provider: 'Partner', providerName: 'Partner Queen 5G', color: 'bg-teal-500', price: '39.9', priceDetail: 'לחודש (ל-3 חודשים ראשונים)', afterPrice: 'מחודש 4: 49.9 ₪', features: ['5000 דקות / 5000 הודעות', '500GB גלישה', '400 דקות שיחה לחו״ל'], isHot: true },
+             // ניתן להוסיף כאן את שאר התוכניות כגיבוי אם רוצים
         ];
 
         const defaultPopup = {
@@ -125,7 +131,7 @@
         };
 
         const App = () => {
-            const [view, setView] = useState('home'); 
+            const [view, setView] = useState('home');
             const [activeCategory, setActiveCategory] = useState('5G');
             const [plans, setPlans] = useState([]);
             const [leads, setLeads] = useState([]);
@@ -133,64 +139,69 @@
             const [popupSettings, setPopupSettings] = useState(defaultPopup);
             const [selectedProvider, setSelectedProvider] = useState('all');
             
-            // --- State for New Features ---
             const [darkMode, setDarkMode] = useState(false);
             const [priceFilter, setPriceFilter] = useState(200);
             const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
             const [leadForm, setLeadForm] = useState({ name: '', phone: '' });
 
-            // Admin State
             const [password, setPassword] = useState('');
             const [isEditModalOpen, setIsEditModalOpen] = useState(false);
             const [isPopupEditOpen, setIsPopupEditOpen] = useState(false);
             const [currentPlan, setCurrentPlan] = useState(null);
             const [isMenuOpen, setIsMenuOpen] = useState(false);
             const [showPopup, setShowPopup] = useState(false);
+            
+            // עריכת מודעה ב-Live
+            const [editingPopup, setEditingPopup] = useState(defaultPopup);
 
             const MY_PHONE_NUMBER = "972532701278"; 
             const ANTENNA_MAP_URL = "https://public.tableau.com/views/_17116609455320/sheet1?%3Alanguage=en-US&publish=yes&%3Asid=&%3Adisplay_count=n&%3Aorigin=viz_share_link%3F%3AshowVizHome&utm_source=go.gov.il&utm_medium=referral";
 
-            // Dark Mode Toggle
             const toggleDarkMode = () => {
                 setDarkMode(!darkMode);
                 if (!darkMode) document.documentElement.classList.add('dark');
                 else document.documentElement.classList.remove('dark');
             };
 
-            // Data Fetching
+            // טעינת נתונים
             useEffect(() => {
+                let unsubscribePlans = () => {};
+                let unsubscribePopup = () => {};
+                let unsubscribeLeads = () => {};
+
                 if (db) {
-                    // Plans
-                    db.collection("plans").onSnapshot(snapshot => {
+                    // תוכניות
+                    unsubscribePlans = db.collection("plans").onSnapshot(snapshot => {
                         if (!snapshot.empty) {
                             setPlans(snapshot.docs.map(doc => doc.data()));
                         } else {
-                             // Seeding logic if empty
+                             // טעינה ראשונית אם ריק
                              initialPlans.forEach(p => db.collection("plans").doc(p.id.toString()).set(p));
                              setPlans(initialPlans);
                         }
                         setLoading(false);
-                    });
+                    }, err => { console.log(err); setLoading(false); });
                     
-                    // Popup Settings
-                    db.collection("settings").doc("popup").onSnapshot(doc => {
+                    // מודעה
+                    unsubscribePopup = db.collection("settings").doc("popup").onSnapshot(doc => {
                         if (doc.exists) setPopupSettings(doc.data());
                     });
 
-                    // Leads (Only needed for admin really, but simplified here)
+                    // לידים
                     if(view === 'admin') {
-                         db.collection("leads").orderBy('date', 'desc').onSnapshot(snapshot => {
+                         unsubscribeLeads = db.collection("leads").orderBy('date', 'desc').onSnapshot(snapshot => {
                              setLeads(snapshot.docs.map(d => ({id: d.id, ...d.data()})));
                          });
                     }
-
                 } else {
-                    setPlans(initialPlans); // Fallback
+                    setPlans(initialPlans); 
                     setLoading(false);
                 }
+
+                return () => { unsubscribePlans(); unsubscribePopup(); unsubscribeLeads(); };
             }, [view]);
 
-            // Popup Timer
+            // טיימר פופאפ
             useEffect(() => {
                 const timer = setTimeout(() => {
                     if (view === 'home' && popupSettings.active) setShowPopup(true);
@@ -198,8 +209,8 @@
                 return () => clearTimeout(timer);
             }, [view, popupSettings]);
 
-            // Icons & Filters
-             const logos = {
+            // לוגואים
+            const logos = {
                 Partner: 'https://upload.wikimedia.org/wikipedia/he/2/24/Partner_logo.svg',
                 Cellcom: 'https://www.smartcut.co.il/wp-content/uploads/2023/05/cellcome-new-logo-2.png.webp',
                 Golan: 'https://tiber.co.il/Content/Catalog/Golan.png',
@@ -219,20 +230,17 @@
                 { id: 'WeCom', name: 'wecom', logo: logos.WeCom },
             ];
 
-            // --- Lead Submit ---
             const handleLeadSubmit = async (e) => {
                 e.preventDefault();
                 if (db) {
-                    await db.collection("leads").add({
-                        ...leadForm,
-                        date: new Date().toISOString(),
-                        status: 'new'
-                    });
-                    alert("פנייתך התקבלה בהצלחה!");
-                    setIsLeadModalOpen(false);
-                    setLeadForm({ name: '', phone: '' });
+                    try {
+                        await db.collection("leads").add({ ...leadForm, date: new Date().toISOString(), status: 'new' });
+                        alert("פנייתך התקבלה בהצלחה!");
+                        setIsLeadModalOpen(false);
+                        setLeadForm({ name: '', phone: '' });
+                    } catch(e) { alert("שגיאה בשליחה"); }
                 } else {
-                    alert("שגיאת חיבור");
+                    alert("שגיאת חיבור לשרת");
                 }
             };
             
@@ -240,7 +248,6 @@
                 if(confirm('למחוק פניה?')) db.collection("leads").doc(id).delete();
             }
 
-            // --- Admin Functions ---
             const handleLogin = (e) => {
                 e.preventDefault();
                 if (password === '4030') { setView('admin'); setPassword(''); setIsMenuOpen(false); } else { alert('סיסמה שגויה'); }
@@ -248,34 +255,49 @@
 
             const handleSavePopup = (e) => {
                 e.preventDefault();
-                if(db) db.collection("settings").doc("popup").set(popupSettings).then(() => setIsPopupEditOpen(false));
+                if(db) db.collection("settings").doc("popup").set(editingPopup).then(() => { setPopupSettings(editingPopup); setIsPopupEditOpen(false); });
             };
 
             const handleSavePlan = (e) => {
                 e.preventDefault();
                 const p = { ...currentPlan };
                 if (typeof p.features === 'string') p.features = p.features.split('\n').filter(x => x);
-                if(db) db.collection("plans").doc(p.id).set(p).then(() => setIsEditModalOpen(false));
+                if(db) db.collection("plans").doc(p.id).set(p).then(() => {
+                    // Update local state for immediate feedback
+                    const newPlans = plans.some(plan => plan.id === p.id) 
+                        ? plans.map(plan => plan.id === p.id ? p : plan)
+                        : [...plans, p];
+                    setPlans(newPlans);
+                    setIsEditModalOpen(false);
+                });
             };
 
             const handleDeletePlan = (id) => {
-                if(confirm('למחוק?')) if(db) db.collection("plans").doc(id).delete();
+                if(confirm('למחוק?')) {
+                     if(db) db.collection("plans").doc(id).delete();
+                     setPlans(plans.filter(p => p.id !== id));
+                }
             };
 
-            // Filter Logic
             const filteredPlans = plans.filter(p => 
                 p.category === activeCategory && 
                 (selectedProvider === 'all' || p.provider === selectedProvider) &&
                 parseFloat(p.price) <= priceFilter
             );
+            
+            const showProviderFilter = ['5G', '4G', 'Kosher'].includes(activeCategory);
+
+            if (loading) return <div className="min-h-screen flex justify-center items-center">טוען...</div>;
 
             if (view === 'login') return (
                 <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-[#121212] p-4">
                     <div className="bg-white dark:bg-[#1e1e1e] p-8 rounded-2xl shadow-xl w-full max-w-sm">
                         <h2 className="text-2xl font-bold mb-6 text-center dark:text-white">כניסה למנהלים</h2>
-                        <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full p-3 border rounded mb-4 dark:bg-[#2d2d2d] dark:border-[#333] dark:text-white" placeholder="סיסמה (4030)" />
-                        <button onClick={handleLogin} className="w-full bg-blue-600 text-white py-3 rounded font-bold">כניסה</button>
-                        <button onClick={() => setView('home')} className="w-full mt-2 text-gray-500">חזרה לאתר</button>
+                        <form onSubmit={handleLogin}>
+                            <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full p-3 border rounded mb-4 dark:bg-[#2d2d2d] dark:border-[#333] dark:text-white" placeholder="סיסמה (4030)" />
+                            <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded font-bold">כניסה</button>
+                            <button onClick={() => setView('home')} type="button" className="w-full mt-2 text-gray-500">חזרה לאתר</button>
+                        </form>
                     </div>
                 </div>
             );
@@ -286,13 +308,13 @@
                     {/* Lead Modal */}
                     {isLeadModalOpen && (
                         <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-                            <div className="bg-white dark:bg-[#1e1e1e] rounded-2xl w-full max-w-md p-6 relative shadow-2xl">
-                                <button onClick={() => setIsLeadModalOpen(false)} className="absolute top-4 left-4 text-gray-500"><Icons.X size={24}/></button>
-                                <h3 className="text-2xl font-bold mb-2 text-center dark:text-white">נציג יחזור אליך</h3>
-                                <p className="text-center opacity-70 mb-6 dark:text-gray-400">השאירו פרטים ונחזור בהקדם</p>
+                            <div className={`rounded-2xl w-full max-w-md p-6 relative ${darkMode ? 'bg-[#1e1e1e] text-white' : 'bg-white'}`}>
+                                <button onClick={() => setIsLeadModalOpen(false)} className="absolute top-4 left-4"><Icons.X size={24}/></button>
+                                <h3 className="text-2xl font-bold mb-2 text-center">השאירו פרטים</h3>
+                                <p className="text-center opacity-70 mb-6">ונציג יחזור אליכם בהקדם</p>
                                 <form onSubmit={handleLeadSubmit} className="space-y-4">
-                                    <input required type="text" placeholder="שם מלא" className="w-full p-3 rounded-xl border bg-transparent dark:border-gray-600 dark:text-white" value={leadForm.name} onChange={e => setLeadForm({...leadForm, name: e.target.value})} />
-                                    <input required type="tel" placeholder="טלפון" className="w-full p-3 rounded-xl border bg-transparent dark:border-gray-600 dark:text-white" value={leadForm.phone} onChange={e => setLeadForm({...leadForm, phone: e.target.value})} />
+                                    <input required type="text" placeholder="שם מלא" className="w-full p-3 rounded-xl border bg-transparent" value={leadForm.name} onChange={e => setLeadForm({...leadForm, name: e.target.value})} />
+                                    <input required type="tel" placeholder="טלפון" className="w-full p-3 rounded-xl border bg-transparent" value={leadForm.phone} onChange={e => setLeadForm({...leadForm, phone: e.target.value})} />
                                     <button type="submit" className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-bold shadow-lg">שלח פרטים</button>
                                 </form>
                             </div>
@@ -302,19 +324,24 @@
                     {/* Popup Edit Modal */}
                     {isPopupEditOpen && (
                         <div className="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-black/60">
-                            <div className="bg-white dark:bg-[#1e1e1e] rounded-2xl w-full max-w-lg p-6 relative">
-                                <h3 className="text-xl font-bold mb-4 dark:text-white">ניהול מודעה קופצת</h3>
-                                <div className="space-y-3 dark:text-white">
-                                    <label className="flex items-center gap-2"><input type="checkbox" checked={popupSettings.active} onChange={e => setPopupSettings({...popupSettings, active: e.target.checked})} className="w-5 h-5" /> הפעל מודעה</label>
-                                    <input className="w-full border p-2 dark:bg-[#2d2d2d] dark:border-gray-600" value={popupSettings.title} onChange={e => setPopupSettings({...popupSettings, title: e.target.value})} placeholder="כותרת" />
-                                    <input className="w-full border p-2 dark:bg-[#2d2d2d] dark:border-gray-600" value={popupSettings.subtitle} onChange={e => setPopupSettings({...popupSettings, subtitle: e.target.value})} placeholder="תת כותרת" />
-                                    <div className="grid grid-cols-2 gap-2">
-                                        <input className="border p-2 dark:bg-[#2d2d2d] dark:border-gray-600" value={popupSettings.offer1Price} onChange={e => setPopupSettings({...popupSettings, offer1Price: e.target.value})} placeholder="מחיר 1" />
-                                        <input className="border p-2 dark:bg-[#2d2d2d] dark:border-gray-600" value={popupSettings.offer2Price} onChange={e => setPopupSettings({...popupSettings, offer2Price: e.target.value})} placeholder="מחיר 2" />
+                            <div className={`rounded-2xl w-full max-w-lg p-6 relative ${darkMode ? 'bg-[#1e1e1e] text-white' : 'bg-white'}`}>
+                                <h3 className="text-xl font-bold mb-4">ניהול מודעה קופצת</h3>
+                                <form onSubmit={handleSavePopup} className="space-y-3">
+                                    <div className="flex items-center gap-2 mb-4 p-2 rounded border border-dashed">
+                                        <input type="checkbox" checked={editingPopup.active} onChange={e => setEditingPopup({...editingPopup, active: e.target.checked})} className="w-5 h-5" />
+                                        <label>הפעל מודעה באתר</label>
                                     </div>
-                                    <button onClick={handleSavePopup} className="w-full bg-blue-600 text-white py-2 rounded">שמור ועדכן</button>
-                                    <button onClick={() => setIsPopupEditOpen(false)} className="w-full bg-gray-200 text-gray-800 py-2 rounded mt-2">סגור</button>
-                                </div>
+                                    <div><label className="text-xs">כותרת</label><input className="w-full border p-2 rounded bg-transparent" value={editingPopup.title} onChange={e => setEditingPopup({...editingPopup, title: e.target.value})} /></div>
+                                    <div><label className="text-xs">תת כותרת</label><input className="w-full border p-2 rounded bg-transparent" value={editingPopup.subtitle} onChange={e => setEditingPopup({...editingPopup, subtitle: e.target.value})} /></div>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <div><label className="text-xs">מחיר 1</label><input className="w-full border p-2 rounded bg-transparent" value={editingPopup.offer1Price} onChange={e => setEditingPopup({...editingPopup, offer1Price: e.target.value})} /></div>
+                                        <div><label className="text-xs">מחיר 2</label><input className="w-full border p-2 rounded bg-transparent" value={editingPopup.offer2Price} onChange={e => setEditingPopup({...editingPopup, offer2Price: e.target.value})} /></div>
+                                    </div>
+                                    <div className="flex gap-3 mt-6">
+                                        <button className="flex-1 bg-blue-600 text-white py-2 rounded">שמור</button>
+                                        <button type="button" onClick={() => setIsPopupEditOpen(false)} className="flex-1 bg-gray-500 text-white py-2 rounded">ביטול</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     )}
@@ -322,22 +349,22 @@
                     {/* Plan Edit Modal */}
                     {isEditModalOpen && (
                          <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/50 overflow-y-auto">
-                            <div className="bg-white dark:bg-[#1e1e1e] rounded-2xl w-full max-w-lg p-6 relative my-auto">
-                                <h3 className="text-xl font-bold mb-4 dark:text-white">{currentPlan.id ? 'עריכה' : 'חדש'}</h3>
-                                <form onSubmit={handleSavePlan} className="space-y-4 dark:text-white">
-                                    <input required className="w-full border rounded p-2 dark:bg-[#2d2d2d] dark:border-gray-600" value={currentPlan.providerName} onChange={e => setCurrentPlan({...currentPlan, providerName: e.target.value})} placeholder="שם" />
+                            <div className={`rounded-2xl w-full max-w-lg p-6 relative my-auto ${darkMode ? 'bg-[#1e1e1e] text-white' : 'bg-white'}`}>
+                                <h3 className="text-xl font-bold mb-4">{currentPlan.id ? 'עריכה' : 'חדש'}</h3>
+                                <form onSubmit={handleSavePlan} className="space-y-4">
+                                    <input required className="w-full border rounded p-2 bg-transparent" value={currentPlan.providerName} onChange={e => setCurrentPlan({...currentPlan, providerName: e.target.value})} placeholder="שם" />
                                     <div className="grid grid-cols-2 gap-4">
-                                        <input required className="w-full border rounded p-2 dark:bg-[#2d2d2d] dark:border-gray-600" value={currentPlan.price} onChange={e => setCurrentPlan({...currentPlan, price: e.target.value})} placeholder="מחיר" />
-                                        <select className="w-full border rounded p-2 dark:bg-[#2d2d2d] dark:border-gray-600" value={currentPlan.provider} onChange={e => setCurrentPlan({...currentPlan, provider: e.target.value})}>{Object.keys(logos).map(k => <option key={k} value={k}>{k}</option>)}</select>
+                                        <input required className="w-full border rounded p-2 bg-transparent" value={currentPlan.price} onChange={e => setCurrentPlan({...currentPlan, price: e.target.value})} placeholder="מחיר" />
+                                        <select className="w-full border rounded p-2 bg-transparent text-black" value={currentPlan.provider} onChange={e => setCurrentPlan({...currentPlan, provider: e.target.value})}>{Object.keys(logos).map(k => <option key={k} value={k}>{k}</option>)}</select>
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
-                                        <select className="w-full border rounded p-2 dark:bg-[#2d2d2d] dark:border-gray-600" value={currentPlan.color} onChange={e => setCurrentPlan({...currentPlan, color: e.target.value})}><option value="bg-purple-700">סגול</option><option value="bg-blue-500">כחול</option><option value="bg-teal-500">טורקיז</option><option value="bg-red-600">אדום</option><option value="bg-pink-600">ורוד</option><option value="bg-orange-500">כתום</option><option value="bg-gray-800">שחור</option></select>
-                                        <select className="w-full border rounded p-2 dark:bg-[#2d2d2d] dark:border-gray-600" value={currentPlan.category} onChange={e => setCurrentPlan({...currentPlan, category: e.target.value})}><option value="5G">5G</option><option value="4G">4G</option><option value="Kosher">כשר</option><option value="Fiber">סיבים</option></select>
+                                        <select className="w-full border rounded p-2 bg-transparent text-black" value={currentPlan.color} onChange={e => setCurrentPlan({...currentPlan, color: e.target.value})}><option value="bg-purple-700">סגול</option><option value="bg-blue-500">כחול</option><option value="bg-teal-500">טורקיז</option><option value="bg-red-600">אדום</option><option value="bg-pink-600">ורוד</option><option value="bg-orange-500">כתום</option><option value="bg-gray-800">שחור</option></select>
+                                        <select className="w-full border rounded p-2 bg-transparent text-black" value={currentPlan.category} onChange={e => setCurrentPlan({...currentPlan, category: e.target.value})}><option value="5G">5G</option><option value="4G">4G</option><option value="Kosher">כשר</option><option value="Fiber">סיבים</option></select>
                                     </div>
-                                    <input className="w-full border rounded p-2 dark:bg-[#2d2d2d] dark:border-gray-600" value={currentPlan.priceDetail} onChange={e => setCurrentPlan({...currentPlan, priceDetail: e.target.value})} placeholder="פרטי מחיר" />
-                                    <textarea className="w-full border rounded p-2 h-24 dark:bg-[#2d2d2d] dark:border-gray-600" value={Array.isArray(currentPlan.features) ? currentPlan.features.join('\n') : currentPlan.features} onChange={e => setCurrentPlan({...currentPlan, features: e.target.value})} placeholder="פירוט"></textarea>
+                                    <input className="w-full border rounded p-2 bg-transparent" value={currentPlan.priceDetail} onChange={e => setCurrentPlan({...currentPlan, priceDetail: e.target.value})} placeholder="פרטי מחיר" />
+                                    <textarea className="w-full border rounded p-2 h-24 bg-transparent" value={Array.isArray(currentPlan.features) ? currentPlan.features.join('\n') : currentPlan.features} onChange={e => setCurrentPlan({...currentPlan, features: e.target.value})} placeholder="פירוט"></textarea>
                                     <label className="flex items-center gap-2"><input type="checkbox" checked={currentPlan.isHot} onChange={e => setCurrentPlan({...currentPlan, isHot: e.target.checked})} /> מבצע חם</label>
-                                    <div className="flex gap-3 mt-6"><button type="submit" className="flex-1 bg-blue-600 text-white py-2 rounded-lg">שמור</button><button type="button" onClick={() => setIsEditModalOpen(false)} className="flex-1 bg-gray-200 text-black py-2 rounded-lg">ביטול</button></div>
+                                    <div className="flex gap-3 mt-6"><button className="flex-1 bg-blue-600 text-white py-2 rounded">שמור</button><button type="button" onClick={() => setIsEditModalOpen(false)} className="flex-1 bg-gray-500 text-white py-2 rounded">ביטול</button></div>
                                 </form>
                             </div>
                         </div>
@@ -350,17 +377,17 @@
                             <div className={`relative w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl shadow-2xl p-6 pointer-events-auto pop-up ${darkMode ? 'bg-[#1e1e1e] text-white' : 'bg-white'}`}>
                                 <button onClick={() => setShowPopup(false)} className="absolute top-3 left-3 p-2 bg-gray-100 text-black rounded-full"><Icons.X size={20} /></button>
                                 <div className="text-center mt-2">
-                                    <div className="bg-red-600 text-white text-sm font-black py-1 px-4 rounded-full mb-3 inline-block pulse-custom">🔥 מבצע לזמן מוגבל</div>
+                                    <div className="bg-red-600 text-white text-sm font-black py-1 px-4 rounded-full mb-3 inline-block pulse-custom">🔥 הזדמנות אחרונה</div>
                                     <h3 className="text-2xl font-black mb-1">{popupSettings.title}</h3>
                                     <p className="opacity-70 text-sm mb-5">{popupSettings.subtitle}</p>
                                     <div className="flex gap-4 justify-center mb-6">
                                         <div className={`p-4 rounded-xl text-center w-1/2 ${darkMode ? 'bg-[#2d2d2d]' : 'bg-blue-50'}`}>
                                             <div className="text-2xl font-bold text-blue-600">{popupSettings.offer1Price}₪</div>
-                                            <div className="text-xs opacity-70">אינטרנט סיבים</div>
+                                            <div className="text-xs opacity-70">{popupSettings.offer1Text}</div>
                                         </div>
                                         <div className={`p-4 rounded-xl text-center w-1/2 ${darkMode ? 'bg-[#2d2d2d]' : 'bg-purple-50'}`}>
                                             <div className="text-2xl font-bold text-purple-600">{popupSettings.offer2Price}₪</div>
-                                            <div className="text-xs opacity-70">טריפל מושלם</div>
+                                            <div className="text-xs opacity-70">{popupSettings.offer2Text}</div>
                                         </div>
                                     </div>
                                     <button onClick={() => { setActiveCategory('Fiber'); setShowPopup(false); }} className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold">לפרטים נוספים</button>
@@ -369,21 +396,24 @@
                         </div>
                     )}
 
-                    {/* --- HEADER --- */}
+                    {/* --- Header --- */}
                     <header className={`sticky top-0 z-50 backdrop-blur-md shadow-sm ${darkMode ? 'bg-[#121212]/90 border-b border-[#333]' : 'bg-white/90'}`}>
                         <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
                             <div className="flex items-center gap-3">
                                 <div className="w-10 h-10 bg-gradient-to-tr from-blue-600 to-cyan-500 rounded-full flex items-center justify-center text-white shadow-lg"><Icons.Phone size={20} /></div>
-                                <div><h1 className="text-xl font-black leading-none dark:text-white">ללום פון</h1><p className="text-xs opacity-60 dark:text-gray-400">הכי זול. בהתחייבות.</p></div>
+                                <div><h1 className="text-xl font-black leading-none">ללום פון</h1><p className="text-xs opacity-60">הכי זול. בהתחייבות.</p></div>
                             </div>
+                            
                             <div className="flex items-center gap-3">
-                                <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-[#2d2d2d] dark:text-white transition-colors">{darkMode ? <Icons.Sun size={20} /> : <Icons.Moon size={20} />}</button>
+                                <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-[#2d2d2d] transition-colors">
+                                    {darkMode ? <Icons.Sun size={20} /> : <Icons.Moon size={20} />}
+                                </button>
                                 <a href={ANTENNA_MAP_URL} target="_blank" className="bg-blue-100 text-blue-600 p-2 rounded-full"><Icons.Signal size={20} /></a>
                                 <div className="relative">
-                                    <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="dark:text-white"><Icons.Menu size={24}/></button>
+                                    <button onClick={() => setIsMenuOpen(!isMenuOpen)}><Icons.Menu size={24}/></button>
                                     {isMenuOpen && (
                                         <div className={`absolute top-10 left-0 w-48 shadow-xl rounded-xl border z-50 ${darkMode ? 'bg-[#1e1e1e] border-[#333]' : 'bg-white border-gray-100'}`}>
-                                            <button onClick={() => { setView(view === 'admin' ? 'home' : 'login'); setIsMenuOpen(false); }} className="block w-full text-right px-4 py-3 hover:opacity-70 dark:text-white">{view === 'admin' ? 'יציאה' : 'ניהול'}</button>
+                                            <button onClick={() => { setView(view === 'admin' ? 'home' : 'login'); setIsMenuOpen(false); }} className="block w-full text-right px-4 py-3 hover:opacity-70">{view === 'admin' ? 'יציאה' : 'ניהול'}</button>
                                         </div>
                                     )}
                                 </div>
@@ -391,7 +421,7 @@
                         </div>
                         <div className="px-4 py-2 flex gap-3 overflow-x-auto scrollbar-hide">
                              {[{ id: '5G', name: 'דור 5', icon: <Icons.Zap size={16} /> }, { id: '4G', name: 'דור 4', icon: <Icons.Smartphone size={16} /> }, { id: 'Kosher', name: 'כשר', icon: <Icons.ShieldCheck size={16} /> }, { id: 'Fiber', name: 'סיבים/TV', icon: <Icons.Wifi size={16} /> }].map(cat => (
-                                <button key={cat.id} onClick={() => setActiveCategory(cat.id)} className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all ${activeCategory === cat.id ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30' : 'border opacity-70 dark:border-gray-700 dark:text-white'}`}>{cat.icon}{cat.name}</button>
+                                <button key={cat.id} onClick={() => setActiveCategory(cat.id)} className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all ${activeCategory === cat.id ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30' : 'border opacity-70'}`}>{cat.icon}{cat.name}</button>
                              ))}
                         </div>
                     </header>
@@ -402,21 +432,20 @@
                             <div className="max-w-6xl mx-auto flex flex-wrap gap-3 justify-between items-center">
                                 <div className="font-bold text-red-500">עריכה: {activeCategory}</div>
                                 <div className="flex gap-2">
-                                    <button onClick={() => setIsPopupEditOpen(true)} className="bg-purple-600 text-white px-3 py-1.5 rounded-lg text-sm">הגדרות מודעה</button>
+                                    <button onClick={() => { setEditingPopup(popupSettings); setIsPopupEditOpen(true); }} className="bg-purple-600 text-white px-3 py-1.5 rounded-lg text-sm">הגדרות מודעה</button>
                                     <button onClick={() => { setCurrentPlan({ id: Date.now().toString(), category: activeCategory, provider: 'Partner', providerName: 'חדש', price: '0', priceDetail: '', features: [], isHot: false }); setIsEditModalOpen(true); }} className="bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm flex items-center gap-1"><Icons.Plus size={16} /> הוסף</button>
                                 </div>
                             </div>
-                            
-                            {/* Admin Leads View */}
+                            {/* Leads List */}
                             <div className="max-w-6xl mx-auto mt-6">
-                                <h3 className="font-bold mb-2 flex items-center gap-2 dark:text-white"><Icons.User size={18}/> לידים חדשים</h3>
+                                <h3 className="font-bold mb-2 flex items-center gap-2"><Icons.User size={18}/> לידים אחרונים</h3>
                                 <div className="grid gap-2 max-h-60 overflow-y-auto">
-                                    {leads.length === 0 && <div className="text-sm opacity-50 dark:text-gray-400">אין פניות חדשות</div>}
+                                    {leads.length === 0 && <div className="text-sm opacity-50">אין פניות חדשות</div>}
                                     {leads.map(lead => (
                                         <div key={lead.id} className={`p-3 rounded flex justify-between items-center ${darkMode ? 'bg-[#2d2d2d]' : 'bg-white'}`}>
                                             <div>
-                                                <div className="font-bold dark:text-white">{lead.name}</div>
-                                                <div className="text-sm opacity-70 dark:text-gray-400"><a href={`tel:${lead.phone}`}>{lead.phone}</a> | {new Date(lead.date).toLocaleDateString()}</div>
+                                                <div className="font-bold">{lead.name}</div>
+                                                <div className="text-sm opacity-70"><a href={`tel:${lead.phone}`}>{lead.phone}</a> | {new Date(lead.date).toLocaleDateString()}</div>
                                             </div>
                                             <button onClick={() => handleDeleteLead(lead.id)} className="text-red-500 hover:bg-red-50 p-2 rounded"><Icons.Trash size={16}/></button>
                                         </div>
@@ -430,14 +459,14 @@
                     <main className="max-w-6xl mx-auto px-4 pb-24 mt-6">
                         
                         {/* Price Filter */}
-                        <div className={`mb-6 p-4 rounded-xl border flex items-center gap-4 ${darkMode ? 'bg-[#1e1e1e] border-[#333] text-white' : 'bg-white border-gray-100'}`}>
-                            <div className="flex items-center gap-2 font-bold whitespace-nowrap"><Icons.Filter size={18} /> סינון מחיר:</div>
+                        <div className={`mb-6 p-4 rounded-xl border flex items-center gap-4 ${darkMode ? 'bg-[#1e1e1e] border-[#333]' : 'bg-white border-gray-100'}`}>
+                            <div className="flex items-center gap-2 font-bold whitespace-nowrap"><Icons.Filter size={18} /> עד מחיר:</div>
                             <input type="range" min="0" max="200" value={priceFilter} onChange={e => setPriceFilter(Number(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600" />
                             <div className="font-bold min-w-[60px] text-left">₪{priceFilter}</div>
                         </div>
 
                         {/* Provider Filter */}
-                        {['5G', '4G', 'Kosher'].includes(activeCategory) && (
+                        {showProviderFilter && (
                             <div className="mb-6 overflow-x-auto pb-2 scrollbar-hide">
                                 <div className="flex gap-4 min-w-max">
                                     {providerFilters.map(prov => (
@@ -445,7 +474,7 @@
                                             <div className={`w-14 h-14 rounded-full border-2 p-2 flex items-center justify-center bg-white ${selectedProvider === prov.id ? 'border-blue-500' : 'border-transparent shadow-sm'}`}>
                                                 {prov.logo ? <SmartLogo src={prov.logo} /> : <Icons.Layers size={20} />}
                                             </div>
-                                            <span className="text-[10px] font-bold dark:text-gray-300">{prov.name}</span>
+                                            <span className="text-[10px] font-bold">{prov.name}</span>
                                         </button>
                                     ))}
                                 </div>
@@ -473,11 +502,12 @@
                                     <div className="p-5 flex flex-col justify-between h-[220px]">
                                         <ul className="space-y-2.5">
                                             {plan.features.map((f, i) => (
-                                                <li key={i} className="flex items-start gap-3 text-sm opacity-80 dark:text-gray-300">
+                                                <li key={i} className="flex items-start gap-3 text-sm opacity-80">
                                                     <div className="mt-0.5 text-blue-500"><Icons.Check size={14} /></div>
                                                     <span className="leading-tight">{f}</span>
                                                 </li>
                                             ))}
+                                            {plan.afterPrice && <li className="text-xs opacity-50 pt-2 border-t border-dashed border-gray-300 dark:border-gray-600">ℹ️ {plan.afterPrice}</li>}
                                         </ul>
                                         <button onClick={() => { const text = `אני מעוניין בתוכנית: ${plan.providerName} ב-${plan.price} שח`; window.open(`https://wa.me/${MY_PHONE_NUMBER}?text=${text}`, '_blank'); }} className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 active:scale-95 transition-all">
                                             אני רוצה את זה <Icons.MessageCircle size={18} />
@@ -486,6 +516,8 @@
                                 </div>
                             ))}
                         </div>
+
+                        {filteredPlans.length === 0 && <div className="text-center py-20 opacity-50">לא נמצאו תוכניות בטווח המחירים הזה</div>}
                     </main>
 
                     {/* Floating Buttons */}
@@ -507,4 +539,5 @@
     </script>
 </body>
 </html>
+
 
