@@ -204,6 +204,15 @@
             { id: 'faq4', question: "תוך כמה זמן הסים מגיע?", answer: "בדרך כלל תוך 3 ימי עסקים בדואר, או שליח עד הבית בתוספת תשלום." },
         ];
 
+        // צבעים דינמיים לקוביות הפרסומת
+        const promoColors = [
+            { bg: 'bg-purple-50 dark:bg-gray-700', border: 'border-purple-100 dark:border-gray-600', badgeBg: 'bg-purple-600' },
+            { bg: 'bg-blue-50 dark:bg-gray-700', border: 'border-blue-100 dark:border-gray-600', badgeBg: 'bg-blue-600' },
+            { bg: 'bg-green-50 dark:bg-gray-700', border: 'border-green-100 dark:border-gray-600', badgeBg: 'bg-green-600' },
+            { bg: 'bg-pink-50 dark:bg-gray-700', border: 'border-pink-100 dark:border-gray-600', badgeBg: 'bg-pink-600' },
+            { bg: 'bg-orange-50 dark:bg-gray-700', border: 'border-orange-100 dark:border-gray-600', badgeBg: 'bg-orange-600' },
+        ];
+
         // --- רכיב דשבורד גרפים ---
         const DashboardCharts = ({ messages, plans }) => {
             const chartRef = useRef(null);
@@ -221,7 +230,6 @@
 
                 const msgsPerDay = last7Days.map(date => {
                     return messages.filter(m => {
-                        // Assuming message.date is localized string or timestamp. 
                         if (typeof m.timestamp === 'number') {
                             return new Date(m.timestamp).toLocaleDateString('he-IL') === date;
                         }
@@ -516,17 +524,18 @@
             const [showComparison, setShowComparison] = useState(false);
             const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
 
-            // הגדרות מודעה קופצת - הוספנו את 'linkedPlanId'
+            // הגדרות מודעה קופצת - עכשיו עם מערך גמיש של מבצעים וכפתור דינמי
             const [popupConfig, setPopupConfig] = useState({
                 show: true,
                 title: "מבצעי השקה בסלקום!",
                 badge: "היום מסתיים המבצע!",
                 badgeColor: "bg-red-600",
-                promo1Price: "39",
-                promo1Text: "אינטרנט סיבים",
-                promo2Price: "89",
-                promo2Text: "טריפל (TV + אינטרנט)",
-                linkedPlanId: "" // מזהה התוכנית אליה הכפתור יעביר
+                buttonText: "לפרטים נוספים והצטרפות", // חדש: טקסט כפתור דינמי
+                linkedPlanId: "", 
+                promos: [ // חדש: מערך דינמי של מבצעים
+                    { id: '1', price: "39", text: "אינטרנט סיבים", subtext: "לחודש (ל-3 חודשים)" },
+                    { id: '2', price: "89", text: "טריפל (TV + אינטרנט)", subtext: "לחודש (ל-3 חודשים)" }
+                ]
             });
 
             const MY_PHONE_NUMBER = "972532701278"; 
@@ -567,7 +576,17 @@
                              if (!snapshot.empty) setFaqs(snapshot.docs.map(doc => doc.data()));
                         });
                         db.collection("settings").doc("popup").get().then((doc) => {
-                            if (doc.exists) setPopupConfig(doc.data());
+                            if (doc.exists) {
+                                const data = doc.data();
+                                // המרת נתונים ישנים למבנה החדש (promos array)
+                                if (!data.promos) {
+                                    data.promos = [];
+                                    if (data.promo1Price || data.promo1Text) data.promos.push({ id: '1', price: data.promo1Price || '', text: data.promo1Text || '', subtext: 'לחודש (ל-3 חודשים)' });
+                                    if (data.promo2Price || data.promo2Text) data.promos.push({ id: '2', price: data.promo2Price || '', text: data.promo2Text || '', subtext: 'לחודש (ל-3 חודשים)' });
+                                }
+                                if (!data.buttonText) data.buttonText = "לפרטים נוספים והצטרפות";
+                                setPopupConfig(data);
+                            }
                         });
 
                         return () => {
@@ -734,7 +753,7 @@
                 }
             };
 
-            // שמירת הגדרות פופאפ - **תוקן והפך לא-סינכרוני כדי להציג שגיאות אמיתיות מ-Firebase**
+            // שמירת הגדרות פופאפ 
             const handleSavePopupConfig = async () => {
                 try {
                     if (db) {
@@ -748,6 +767,29 @@
                     alert('שגיאה בשמירת ההגדרות. אנא ודא שיש לך הרשאות כתיבה (Rules) ב-Firestore: \n' + error.message);
                 }
             };
+
+            // פונקציה לעריכת רשימת המבצעים במודעה
+            const addPromoToPopup = () => {
+                const newPromos = [...(popupConfig.promos || [])];
+                newPromos.push({ id: Date.now().toString(), price: '', text: '', subtext: '' });
+                setPopupConfig({ ...popupConfig, promos: newPromos });
+            };
+
+            const removePromoFromPopup = (idToRemove) => {
+                const newPromos = (popupConfig.promos || []).filter(p => p.id !== idToRemove);
+                setPopupConfig({ ...popupConfig, promos: newPromos });
+            };
+
+            const updatePromoInPopup = (idToUpdate, field, value) => {
+                const newPromos = (popupConfig.promos || []).map(p => {
+                    if (p.id === idToUpdate) {
+                        return { ...p, [field]: value };
+                    }
+                    return p;
+                });
+                setPopupConfig({ ...popupConfig, promos: newPromos });
+            };
+
 
             const handleOrder = (plan) => {
                 // Increment Clicks in DB
@@ -813,41 +855,50 @@
                     <ComparisonModal plans={comparisonList} isOpen={showComparison} onClose={() => setShowComparison(false)} onOrder={handleOrder} />
                     <DataCalculator isOpen={isCalculatorOpen} onClose={() => setIsCalculatorOpen(false)} />
 
-                    {/* Popup */}
+                    {/* Popup - עכשיו לגמרי דינמי */}
                     {showPopup && view === 'home' && popupConfig.show && (
                         <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center pointer-events-none">
                             <div className="absolute inset-0 bg-black/60 transition-opacity pointer-events-auto" onClick={() => setShowPopup(false)}></div>
-                            <div className="relative w-full sm:max-w-md bg-white dark:bg-gray-800 rounded-t-2xl sm:rounded-2xl shadow-2xl p-6 pointer-events-auto pop-up overflow-hidden">
+                            <div className="relative w-full sm:max-w-md bg-white dark:bg-gray-800 rounded-t-2xl sm:rounded-2xl shadow-2xl p-6 pointer-events-auto pop-up overflow-hidden max-h-[90vh] overflow-y-auto">
                                 <button onClick={() => setShowPopup(false)} className="absolute top-3 left-3 p-2 bg-gray-100 dark:bg-gray-700 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors z-10"><XIcon size={20} /></button>
                                 <div className="text-center relative z-10">
-                                    <div className={`${popupConfig.badgeColor || 'bg-red-600'} text-white text-sm font-black py-2 px-4 rounded-full mb-4 inline-block shadow-lg pulse-red flex items-center justify-center gap-2 mx-auto w-fit`}><Clock size={16} />{popupConfig.badge}</div>
+                                    {popupConfig.badge && (
+                                        <div className={`${popupConfig.badgeColor || 'bg-red-600'} text-white text-sm font-black py-2 px-4 rounded-full mb-4 inline-block shadow-lg pulse-red flex items-center justify-center gap-2 mx-auto w-fit`}><Clock size={16} />{popupConfig.badge}</div>
+                                    )}
                                     <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-4">{popupConfig.title}</h3>
-                                    <div className="space-y-3 mb-6">
-                                        <div className="bg-purple-50 dark:bg-gray-700 border border-purple-100 dark:border-gray-600 p-3 rounded-xl flex items-center gap-3 text-right"><div className="bg-purple-600 text-white p-2 rounded-lg font-bold text-lg min-w-[60px] text-center">{popupConfig.promo1Price}₪</div><div><div className="font-bold text-gray-900 dark:text-white">{popupConfig.promo1Text}</div><div className="text-xs text-gray-500 dark:text-gray-400">לחודש (ל-3 חודשים)</div></div></div>
-                                        <div className="bg-blue-50 dark:bg-gray-700 border border-blue-100 dark:border-gray-600 p-3 rounded-xl flex items-center gap-3 text-right"><div className="bg-blue-600 text-white p-2 rounded-lg font-bold text-lg min-w-[60px] text-center">{popupConfig.promo2Price}₪</div><div><div className="font-bold text-gray-900 dark:text-white">{popupConfig.promo2Text}</div><div className="text-xs text-gray-500 dark:text-gray-400">לחודש (ל-3 חודשים)</div></div></div>
+                                    
+                                    <div className="space-y-3 mb-6 text-right">
+                                        {(popupConfig.promos || []).map((promo, idx) => {
+                                            const theme = promoColors[idx % promoColors.length];
+                                            return (
+                                                <div key={promo.id || idx} className={`${theme.bg} border ${theme.border} p-3 rounded-xl flex items-center gap-3`}>
+                                                    <div className={`${theme.badgeBg} text-white p-2 rounded-lg font-bold text-lg min-w-[60px] text-center shadow-sm`}>{promo.price}₪</div>
+                                                    <div>
+                                                        <div className="font-bold text-gray-900 dark:text-white">{promo.text}</div>
+                                                        {promo.subtext && <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{promo.subtext}</div>}
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
                                     </div>
                                     
-                                    {/* עדכון הכפתור שיתמוך בניתוב לתוכנית נבחרת */}
                                     <button 
                                         onClick={() => { 
                                             setShowPopup(false); 
                                             if (popupConfig.linkedPlanId) {
                                                 const targetPlan = plans.find(p => p.id === popupConfig.linkedPlanId);
                                                 if (targetPlan) {
-                                                    // מעביר אוטומטית לקטגוריה של התוכנית
                                                     setActiveCategory(targetPlan.category);
-                                                    // פותח ישר את בקשת הרכישה של התוכנית המבוקשת
                                                     setTimeout(() => handleOrder(targetPlan), 300); 
                                                 }
                                             } else {
-                                                // ברירת מחדל אם לא נבחרה שום תוכנית בהגדרות המנהל
                                                 setActiveCategory('Fiber'); 
                                                 window.scrollTo({ top: 0, behavior: 'smooth' }); 
                                             }
                                         }} 
-                                        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-3.5 rounded-xl shadow-lg flex items-center justify-center gap-2"
+                                        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-3.5 rounded-xl shadow-lg flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]"
                                     >
-                                        לפרטים נוספים והצטרפות<Wifi size={18} />
+                                        {popupConfig.buttonText || 'לפרטים נוספים והצטרפות'}<Wifi size={18} />
                                     </button>
                                 </div>
                             </div>
@@ -1037,40 +1088,91 @@
                                     </div>
                                 )}
 
-                                {/* לשונית הגדרות */}
+                                {/* לשונית הגדרות - פופאפ מעודכן ודינמי לחלוטין */}
                                 {adminTab === 'popup' && (
-                                    <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700">
-                                        <h2 className="text-2xl font-bold mb-6 dark:text-white">הגדרות מודעה קופצת</h2>
+                                    <div className="max-w-3xl mx-auto bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border dark:border-gray-700">
+                                        <h2 className="text-2xl font-bold mb-6 dark:text-white">הגדרות מודעה קופצת (פופאפ)</h2>
                                         <div className="space-y-4">
-                                            <label className="flex items-center gap-2 dark:text-white"><input type="checkbox" checked={popupConfig.show} onChange={(e) => setPopupConfig({...popupConfig, show: e.target.checked})} className="w-5 h-5"/> הפעל מודעה קופצת</label>
-                                            <input type="text" className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white" value={popupConfig.title} onChange={e => setPopupConfig({...popupConfig, title: e.target.value})} placeholder="כותרת" />
-                                            <input type="text" className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white" value={popupConfig.badge} onChange={e => setPopupConfig({...popupConfig, badge: e.target.value})} placeholder="תגית (לדוגמה: מבצע מסתיים היום!)" />
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <input type="text" className="p-2 border rounded dark:bg-gray-700 dark:text-white" value={popupConfig.promo1Price} onChange={e => setPopupConfig({...popupConfig, promo1Price: e.target.value})} placeholder="מחיר קוביה 1" />
-                                                <input type="text" className="p-2 border rounded dark:bg-gray-700 dark:text-white" value={popupConfig.promo1Text} onChange={e => setPopupConfig({...popupConfig, promo1Text: e.target.value})} placeholder="טקסט קוביה 1" />
-                                                <input type="text" className="p-2 border rounded dark:bg-gray-700 dark:text-white" value={popupConfig.promo2Price} onChange={e => setPopupConfig({...popupConfig, promo2Price: e.target.value})} placeholder="מחיר קוביה 2" />
-                                                <input type="text" className="p-2 border rounded dark:bg-gray-700 dark:text-white" value={popupConfig.promo2Text} onChange={e => setPopupConfig({...popupConfig, promo2Text: e.target.value})} placeholder="טקסט קוביה 2" />
-                                            </div>
-                                            
-                                            {/* בחירת תוכנית להעברה */}
-                                            <div className="mt-4 pt-4 border-t dark:border-gray-600">
-                                                <label className="block text-sm font-bold mb-2 dark:text-white">בחר לאיזו תוכנית הכפתור בפרסומת יעביר:</label>
-                                                <p className="text-xs text-gray-500 mb-2">אם תבחר תוכנית, לחיצה על הכפתור בפרסומת תעביר את הלקוח ישר לוואטסאפ של התוכנית.</p>
-                                                <select
-                                                    className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white font-medium focus:border-blue-500"
-                                                    value={popupConfig.linkedPlanId || ''}
-                                                    onChange={e => setPopupConfig({...popupConfig, linkedPlanId: e.target.value})}
-                                                >
-                                                    <option value="">-- ללא קישור ישיר לתוכנית (יעביר רק לראש הדף) --</option>
-                                                    {plans.map(p => (
-                                                        <option key={p.id} value={p.id}>
-                                                            {p.providerName} - {p.price}₪ ({p.category === '5G' ? 'דור 5' : p.category === '4G' ? 'דור 4' : p.category === 'Kosher' ? 'כשר' : 'אינטרנט ו-TV'})
-                                                        </option>
-                                                    ))}
-                                                </select>
+                                            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl mb-4 border border-blue-100 dark:border-blue-800">
+                                                <label className="flex items-center gap-3 text-lg font-bold text-blue-800 dark:text-blue-300 cursor-pointer">
+                                                    <input type="checkbox" checked={popupConfig.show} onChange={(e) => setPopupConfig({...popupConfig, show: e.target.checked})} className="w-6 h-6 rounded text-blue-600 focus:ring-blue-500"/> 
+                                                    הפעל מודעה קופצת באתר
+                                                </label>
                                             </div>
 
-                                            <button onClick={handleSavePopupConfig} className="w-full bg-green-600 hover:bg-green-700 transition-colors text-white py-3 mt-4 rounded-xl font-bold shadow-md">שמור שינויים להגדרות המודעה</button>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <div>
+                                                    <label className="block text-sm font-bold mb-1 dark:text-gray-300">כותרת ראשית</label>
+                                                    <input type="text" className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white" value={popupConfig.title} onChange={e => setPopupConfig({...popupConfig, title: e.target.value})} placeholder="כותרת המודעה" />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm font-bold mb-1 dark:text-gray-300">תגית (באדום מהבהב)</label>
+                                                    <input type="text" className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white" value={popupConfig.badge} onChange={e => setPopupConfig({...popupConfig, badge: e.target.value})} placeholder="לדוגמה: מבצע מסתיים היום!" />
+                                                </div>
+                                            </div>
+
+                                            {/* ניהול דינמי של הקוביות */}
+                                            <div className="border-t border-b dark:border-gray-600 py-6 my-6 bg-gray-50/50 dark:bg-gray-900/50 rounded-xl px-4">
+                                                <div className="flex justify-between items-center mb-4">
+                                                    <h3 className="text-lg font-bold dark:text-white">מבצעים בתוך המודעה:</h3>
+                                                    <button onClick={addPromoToPopup} className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-colors">
+                                                        <PlusIcon size={16}/> הוסף קוביית מבצע
+                                                    </button>
+                                                </div>
+                                                
+                                                <div className="space-y-3">
+                                                    {(popupConfig.promos || []).length === 0 && (
+                                                        <div className="text-center text-gray-500 py-4">אין מבצעים להצגה. לחץ על "הוסף קוביית מבצע".</div>
+                                                    )}
+                                                    {(popupConfig.promos || []).map((promo, index) => (
+                                                        <div key={promo.id} className="grid grid-cols-1 sm:grid-cols-12 gap-3 bg-white dark:bg-gray-800 p-4 rounded-xl relative border dark:border-gray-700 shadow-sm items-center">
+                                                            <div className="sm:col-span-2">
+                                                                <label className="block text-xs text-gray-500 mb-1">מחיר</label>
+                                                                <input type="text" className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white text-center font-bold text-lg text-blue-600" value={promo.price} onChange={e => updatePromoInPopup(promo.id, 'price', e.target.value)} placeholder="39" />
+                                                            </div>
+                                                            <div className="sm:col-span-4">
+                                                                <label className="block text-xs text-gray-500 mb-1">כותרת מבצע</label>
+                                                                <input type="text" className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white font-bold" value={promo.text} onChange={e => updatePromoInPopup(promo.id, 'text', e.target.value)} placeholder="אינטרנט סיבים" />
+                                                            </div>
+                                                            <div className="sm:col-span-5">
+                                                                <label className="block text-xs text-gray-500 mb-1">תת טקסט (אופציונלי)</label>
+                                                                <input type="text" className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white text-sm" value={promo.subtext} onChange={e => updatePromoInPopup(promo.id, 'subtext', e.target.value)} placeholder="למשל: לחודש (ל-3 חודשים)" />
+                                                            </div>
+                                                            <div className="sm:col-span-1 flex justify-center sm:justify-end mt-4 sm:mt-0">
+                                                                <button onClick={() => removePromoFromPopup(promo.id)} className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors" title="מחק מבצע">
+                                                                    <TrashIcon size={18}/>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            
+                                            {/* הגדרות כפתור וניתוב */}
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50/50 dark:bg-gray-800 p-4 rounded-xl border dark:border-gray-700">
+                                                <div>
+                                                    <label className="block text-sm font-bold mb-2 dark:text-white">טקסט הכפתור הראשי</label>
+                                                    <input type="text" className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white focus:border-blue-500 font-bold text-center" value={popupConfig.buttonText || 'לפרטים נוספים והצטרפות'} onChange={e => setPopupConfig({...popupConfig, buttonText: e.target.value})} placeholder="הכנס טקסט לכפתור..." />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm font-bold mb-2 dark:text-white">לאיזו תוכנית להעביר?</label>
+                                                    <select
+                                                        className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white font-medium focus:border-blue-500"
+                                                        value={popupConfig.linkedPlanId || ''}
+                                                        onChange={e => setPopupConfig({...popupConfig, linkedPlanId: e.target.value})}
+                                                    >
+                                                        <option value="">-- אל תעביר לתוכנית, רק פתח קטגוריה --</option>
+                                                        {plans.map(p => (
+                                                            <option key={p.id} value={p.id}>
+                                                                {p.providerName} - {p.price}₪ ({p.category === '5G' ? 'דור 5' : p.category === '4G' ? 'דור 4' : p.category === 'Kosher' ? 'כשר' : 'אינטרנט ו-TV'})
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                    <p className="text-xs text-gray-500 mt-2">* הרשימה הזו מתעדכנת אוטומטית מתוך כל התוכניות שיש לך באתר. אם תבחר כאן תוכנית, לקוח שילחץ על הכפתור יועבר ישירות לוואטסאפ של התוכנית.</p>
+                                                </div>
+                                            </div>
+
+                                            <button onClick={handleSavePopupConfig} className="w-full bg-green-600 hover:bg-green-700 transition-all text-white py-4 mt-6 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl active:scale-[0.98]">שמור את כל הגדרות המודעה</button>
                                         </div>
                                     </div>
                                 )}
@@ -1288,4 +1390,5 @@
     </script>
 </body>
 </html>
+
 
